@@ -1,7 +1,7 @@
 <?php
 /*
    Plugin Name: Mailjet for Wordpress
-   Version: 1.0
+   Version: 1.0.1
    Plugin URI: https://www.mailjet.com/plugin/wordpress.htm
    Description: Reconfigures the wp_mail() function to use Mailjet SMTP instead of mail() and creates an options page to manage the settings.
    Author: Mailjet
