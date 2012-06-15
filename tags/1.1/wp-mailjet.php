@@ -2,7 +2,7 @@
 
 /*
 Plugin Name: Mailjet for Wordpress
-Version: 1.1
+Version: 1.1.3
 Plugin URI: https://www.mailjet.com/plugin/wordpress.htm
 Description: Use mailjet SMTP to send email, manage lists and contacts within wordpress
 Author: Mailjet SAS
@@ -89,7 +89,7 @@ function wp_mailjet_register_widgets() {
     register_widget( 'MailjetSubscribeWidget' );
 }
 
-function settings_link( $links, $file ) {
+function mailjet_settings_link( $links, $file ) {
     if ( $file != plugin_basename( __FILE__ ))
         return $links;
 
@@ -99,7 +99,7 @@ function settings_link( $links, $file ) {
 
     return $links;
 }
-add_filter( 'plugin_action_links', 'settings_link', 10, 2);
+add_filter( 'plugin_action_links', 'mailjet_settings_link', 10, 2);
 
 // Add an activation hook for this plugin
 register_activation_hook(__FILE__,'wp_mailjet_activate');
