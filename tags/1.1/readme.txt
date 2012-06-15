@@ -21,15 +21,15 @@ Mailjet's official plugin for WordPress will:
 
 
 **Secure & real-time SMTP relay for all your emails**
-A lot of features and plugins from your WordPress site send email notifications. All these messages are very important for your users, as well as for your business. Therefore, you want to track success and ensure a successful delivery. 
+- A lot of features and plugins from your WordPress site send email notifications. All these messages are very important for your users, as well as for your business. Therefore, you want to track success and ensure a successful delivery. 
 
-Our plugin simply extends the WordPress wp_mail() function, to use Mailjet's SMTP instead. This will improve your deliverability. You will also get live and in-depth statistics to track and optimize in real time.
+Our plugin simply extends the WordPress wp_mail() function, to use Mailjet's SMTP instead. This will improve your deliverability. You will also get live and in-depth statistics to track and optimize in real time. Making the choice of Mailjet is the right solution for your [transactional emails](http://www.mailjet.com/features/transactional-email.html) , [bulk emails](http://www.mailjet.com/features/bulk-email.html) and [newsletter emails](https://www.mailjet.com/features/newsletter-service.html).
 
 **Sign up form & contact lists Management**
-Another great feature of this plugin is the sign up form Widget. It allows your site visitors to join your Mailjet lists. You can create contact lists directly from the plugin dashboard. The Widget will let you add forms to any post or any page.
+-  Another great feature of this plugin is the sign up form Widget. It allows your site visitors to join your Mailjet lists. You can create contact lists directly from the plugin dashboard. The Widget will let you add forms to any post or any page.
 
 **Installing the Plugin**
-Enable Mailjet's Plugin like you would do for any other Wordpress plugin. Enter your Mailjet credentials and refer to the FAQs for any other information. If you don't have a Mailjet account yet, [signup_now](http://www.mailjet.com) for free!
+-  Enable Mailjet's Plugin like you would do for any other Wordpress plugin. Enter your Mailjet credentials and refer to the FAQs for any other information. If you don't have a Mailjet account yet, [signup now](http://www.mailjet.com) for free!
 
 
 == Installation ==
