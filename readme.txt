@@ -70,6 +70,13 @@ This plugin is currently available in English, French, Spanish and German. Suppo
 
 == Changelog ==
 
+= 1.1.3 =
+* Bugfix: Correct ajax request for WordPress 3.2.1 
+* Bugfix: Correct widget creation 
+
+= 1.1.1 =
+* added readme and translations files
+
 = 1.1 =
 * Bug fix: compatibility with WordPress 3.4
 * Add support for list edition and creation
