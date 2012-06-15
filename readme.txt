@@ -29,7 +29,7 @@ Our plugin simply extends the WordPress wp_mail() function, to use Mailjet's SMT
 Another great feature of this plugin is the sign up form Widget. It allows your site visitors to join your Mailjet lists. You can create contact lists directly from the plugin dashboard. The Widget will let you add forms to any post or any page.
 
 **Installing the Plugin**
-Enable Mailjet's Plugin like you would do for any other Wordpress plugin. Enter your Mailjet credentials and refer to the FAQs for any other information. If you don't have a Mailjet account yet, [http://www.mailjet.com signup_now] for free!
+Enable Mailjet's Plugin like you would do for any other Wordpress plugin. Enter your Mailjet credentials and refer to the FAQs for any other information. If you don't have a Mailjet account yet, [signup_now](http://www.mailjet.com) for free!
 
 
 == Installation ==
@@ -43,7 +43,7 @@ Enable Mailjet's Plugin like you would do for any other Wordpress plugin. Enter 
 == Frequently Asked Questions ==
 
 = What is Mailjet? =
-[http://www.mailjet.com Mailjet] is an all-in-one solution to send, track and deliver both marketing and transactional emails. Its Cloud-Based infrastructure is unique and highly scalable. A proprietary technology optimizes the sending and the deliverability of your messages. 
+[Mailjet](http://www.mailjet.com) is an all-in-one solution to send, track and deliver both marketing and transactional emails. Its Cloud-Based infrastructure is unique and highly scalable. A proprietary technology optimizes the sending and the deliverability of your messages. 
 
 = Why use Mailjet as an SMTP relay for Wordpress? =
 1 in 4 legitimate email gets lost or ends up a the spam folder. By Sending your email through Mailjet's SMTP relay, you will avoid this and make sure that your recipients receive your messages in real time, straight into their inbox. You will also be able to track the delivery (opens, bounces, etc.) as well as the activity of your emails (clicks, opens, etc.). On top of that, tools such as our Newsletter editor will let you create and send a beautiful marketing campaign in only a few minutes. All this added value comes with no engagement and very low prices.  
