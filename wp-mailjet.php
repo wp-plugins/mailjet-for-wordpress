@@ -2,7 +2,7 @@
 
 /*
 Plugin Name: Mailjet for Wordpress
-Version: 1.1.3
+Version: 1.1.5
 Plugin URI: https://www.mailjet.com/plugin/wordpress.htm
 Description: Use mailjet SMTP to send email, manage lists and contacts within wordpress
 Author: Mailjet SAS
@@ -43,8 +43,8 @@ define ('MJ_MAILER', 'X-Mailer:WP-Mailjet/0.1');
 $options = new WPMailjet_Options();
 
 //Check plugin is set up properly
-if(get_option('mj_password') && get_option('mj_username')){
-    $MailjetApi = new Mailjet(get_option('mj_username'), get_option('mj_password'));
+if(get_option('mailjet_password') && get_option('mailjet_username')){
+    $MailjetApi = new Mailjet(get_option('mailjet_username'), get_option('mailjet_password'));
     global $phpmailer;
     if ( !is_object( $phpmailer ) || !is_a( $phpmailer, 'PHPMailer' ) ) {
         require_once ABSPATH . WPINC . '/class-phpmailer.php';
@@ -55,7 +55,7 @@ if(get_option('mj_password') && get_option('mj_username')){
     $WPMailjet = new WPMailjet($MailjetApi, $phpmailer);
     add_action( 'widgets_init', 'wp_mailjet_register_widgets' );
 
-} elseif(get_option('mj_enabled') && (!get_option('mj_password') || !get_option('mj_username'))) {
+} elseif(get_option('mailjet_enabled') && (!get_option('mailjet_password') || !get_option('mailjet_username'))) {
 
     /* Display a notice that can be dismissed */
     add_action('admin_notices', 'wp_mailjet_admin_notice');

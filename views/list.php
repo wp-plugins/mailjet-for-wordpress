@@ -136,11 +136,8 @@ class Mailjet_List_Table extends WP_List_Table {
             'orderby' => $api_order,
             'start' => $offset
         );
-        
-        $mj_lists = $this->api->listsAll($params);
-        if(isset($mj_lists->lists)) :
-	        $this->items = array_map(array($this, 'convert_to_array'),$mj_lists->lists);
-		endif;
+        $this->items = array_map(array($this, 'convert_to_array'),$this->api->listsAll($params)->lists);
+
 
     }
 

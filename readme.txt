@@ -70,6 +70,9 @@ This plugin is currently available in English, French, Spanish and German. Suppo
 
 == Changelog ==
 
+= 1.1.5 =
+* Added: HTTP Port Configuration 
+
 = 1.1.3 =
 * Bugfix: Correct ajax request for WordPress 3.2.1 
 * Bugfix: Correct widget creation 
