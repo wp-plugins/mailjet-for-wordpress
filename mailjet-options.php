@@ -64,13 +64,20 @@ class WPMailjet_Options {
 
         $form->addFieldset($generalFieldset);
 
-        $generalOptions[] = new Options_Form_Option('mj_enabled', __('Enabled', 'wp-mailjet'), 'checkbox', 1, __('Enable email through <b>Mailjet</b>', 'wp-mailjet'));
-        $generalOptions[] = new Options_Form_Option('mj_test', __('Send test email', 'wp-mailjet'), 'checkbox', 1, __('Send test email now', 'wp-mailjet'));
-        $test_email = (get_option('mj_test_address') ? get_option('mj_test_address') : get_option('admin_email'));
-        $generalOptions[] = new Options_Form_Option('mj_test_address', __('Recipient of test email', 'wp-mailjet'), 'email', $test_email);
-        $from_email = (get_option('mj_from_email') ? get_option('mj_from_email') : get_option('admin_email'));
+        $generalOptions[] = new Options_Form_Option('mailjet_enabled', __('Enabled', 'wp-mailjet'), 'checkbox', get_option('mailjet_enabled'), __('Enable email through <b>Mailjet</b>', 'wp-mailjet'));
+        $generalOptions[] = new Options_Form_Option('mailjet_ssl', __('SSL Enabled', 'wp-mailjet'), 'checkbox', get_option('mailjet_ssl'), __('Enable <b>SSL</b> communication with mailjet.com', 'wp-mailjet'));
+        $ports = array(
+            array('value' => 25, 'label' => 25),
+            array('value' => 465, 'label' => 465),
+            array('value' => 587, 'label' => 587),
+        );
+        $generalOptions[] = new Options_Form_Option('mailjet_port', '', 'select', get_option('mailjet_port'), __('Port to use for SMTP communication', 'wp-mailjet'), false, $ports);
+        $generalOptions[] = new Options_Form_Option('mailjet_test', __('Send test email', 'wp-mailjet'), 'checkbox',  get_option('mailjet_test'), __('Send test email now', 'wp-mailjet'));
+        $test_email = (get_option('mailjet_test_address') ? get_option('mailjet_test_address') : get_option('admin_email'));
+        $generalOptions[] = new Options_Form_Option('mailjet_test_address', __('Recipient of test email', 'wp-mailjet'), 'email', $test_email);
+        $from_email = (get_option('mailjet_from_email') ? get_option('mailjet_from_email') : get_option('admin_email'));
 
-        $generalOptions[] = new Options_Form_Option('mj_from_email', __('<code>From:</code> email address', 'wp-mailjet'), 'email', $from_email);
+        $generalOptions[] = new Options_Form_Option('mailjet_from_email', __('<code>From:</code> email address', 'wp-mailjet'), 'email', $from_email);
 
         $generalFieldset = new Options_Form_Fieldset(
             __('General Settings', 'wp-mailjet'),
@@ -81,8 +88,8 @@ class WPMailjet_Options {
         $form->addFieldset($generalFieldset);
 
 
-        $apiOptions[] = new Options_Form_Option('mj_username', __('API key', 'wp-mailjet'), 'text', get_option('mj_username'), null, true);
-        $apiOptions[] = new Options_Form_Option('mj_password', __('API secret', 'wp-mailjet'), 'text', get_option('mj_password'), null, true);
+        $apiOptions[] = new Options_Form_Option('mailjet_username', __('API key', 'wp-mailjet'), 'text', get_option('mailjet_username'), null, true);
+        $apiOptions[] = new Options_Form_Option('mailjet_password', __('API secret', 'wp-mailjet'), 'text', get_option('mailjet_password'), null, true);
 
         $apiFieldset = new Options_Form_Fieldset(
             __('API Settings', 'wp-mailjet'),
@@ -100,87 +107,111 @@ class WPMailjet_Options {
 
     public function save_settings()
     {
-//        echo '<pre>'.print_r($_POST, true).'</pre>';
-        $fields['mj_enabled'] = (isset($_POST['mj_enabled']) ? 1 : 0);
-        $fields['mj_test'] = (isset($_POST['mj_test']) ? 1 : 0);
-        $fields['mj_test_address'] = strip_tags(filter_var($_POST ['mj_test_address'], FILTER_VALIDATE_EMAIL));
-        $fields['mj_from_email'] = strip_tags(filter_var($_POST ['mj_from_email'], FILTER_VALIDATE_EMAIL));
-        $fields['mj_username'] = strip_tags(filter_var($_POST ['mj_username'], FILTER_SANITIZE_STRING));
-        $fields['mj_password'] = strip_tags(filter_var($_POST ['mj_password'], FILTER_SANITIZE_STRING));
+        $fields['mailjet_enabled'] = (isset($_POST['mailjet_enabled']) ? 1 : 0);
+        $fields['mailjet_test'] = (isset($_POST['mailjet_test']) ? 1 : 0);
+        $fields['mailjet_ssl'] = (isset($_POST['mailjet_ssl']) ? 'ssl' : '');
+        $fields['mailjet_test_address'] = strip_tags(filter_var($_POST ['mailjet_test_address'], FILTER_VALIDATE_EMAIL));
+        $fields['mailjet_from_email'] = strip_tags(filter_var($_POST ['mailjet_from_email'], FILTER_VALIDATE_EMAIL));
+        $fields['mailjet_username'] = strip_tags(filter_var($_POST ['mailjet_username'], FILTER_SANITIZE_STRING));
+        $fields['mailjet_password'] = strip_tags(filter_var($_POST ['mailjet_password'], FILTER_SANITIZE_STRING));
+        $fields['mailjet_port'] = strip_tags(filter_var($_POST ['mailjet_port'], FILTER_SANITIZE_NUMBER_INT));
 
         $errors = array();
-        if ($fields['mj_test'] && empty ($fields['mj_test_address'])) {
-            $errors [] = 'mj_test_address';
+        if ($fields['mailjet_test'] && empty ($fields['mailjet_test_address'])) {
+            $errors [] = 'mailjet_test_address';
         }
-        if (!empty ($fields ['mj_test_address'])) {
-            if (!filter_var($fields ['mj_test_address'], FILTER_VALIDATE_EMAIL)) {
-                $errors [] = 'mj_test_address';
+        if (!empty ($fields ['mailjet_test_address'])) {
+            if (!filter_var($fields ['mailjet_test_address'], FILTER_VALIDATE_EMAIL)) {
+                $errors [] = 'mailjet_test_address';
             }
         }
-        if (empty($fields ['mj_username'])) {
-            $errors [] = 'mj_username';
+        if (empty($fields ['mailjet_username'])) {
+            $errors [] = 'mailjet_username';
         }
-        if (empty($fields ['mj_password'])) {
-            $errors [] = 'mj_password';
+        if (empty($fields ['mailjet_password'])) {
+            $errors [] = 'mailjet_password';
         }
 
         if (! count ($errors)) {
-            update_option('mj_enabled', $fields['mj_enabled']);
-            update_option('mj_test', $fields['mj_test']);
-            update_option('mj_test_address', $fields ['mj_test_address']);
-            update_option('mj_from_email', $fields ['mj_from_email']);
-            update_option('mj_username', $fields ['mj_username']);
-            update_option('mj_password', $fields ['mj_password']);
+            update_option('mailjet_enabled', $fields['mailjet_enabled']);
+            update_option('mailjet_test', $fields['mailjet_test']);
+            update_option('mailjet_test_address', $fields ['mailjet_test_address']);
+            update_option('mailjet_from_email', $fields ['mailjet_from_email']);
+            update_option('mailjet_username', $fields ['mailjet_username']);
+            update_option('mailjet_password', $fields ['mailjet_password']);
+            update_option('mailjet_ssl', $fields ['mailjet_ssl']);
+            update_option('mailjet_port', $fields ['mailjet_port']);
 
-            $configs = array (array ('ssl://', 465),
-                array ('tls://', 587),
+
+
+            $configs = array (
+                array ('', 25),
+                array ('tls', 25),
+                array ('ssl', 465),
+                array ('tls', 587),
                 array ('', 587),
                 array ('', 588),
-                array ('tls://', 25),
-                array ('', 25));
+            );
 
             $host = MJ_HOST;
             $connected = FALSE;
-
-            for ($i = 0; $i < count ($configs); ++$i) {
-                $soc = @ fsockopen ($configs [$i] [0].$host, $configs [$i] [1], $errno, $errstr, 5);
-                if ($soc) {
-                    fclose ($soc);
-                    $connected = TRUE;
-                    break;
+            if (get_option('mailjet_ssl')){
+                $protocol = get_option('mailjet_ssl').'://';
+            }else{
+                $protocol = '';
+            }
+            $soc = @ fsockopen ($protocol.$host, get_option('mailjet_port'), $errno, $errstr, 5);
+            if ($soc) {
+                $connected = TRUE;
+                $port = get_option('mailjet_port');
+                $ssl = get_option('mailjet_ssl');
+            }else {
+                for ($i = 0; $i < count ($configs); ++$i) {
+                    if ($configs [$i] [0]){
+                        $protocol = $configs [$i] [0].'://';
+                    }else{
+                        $protocol = '';
+                    }
+                    $soc = @ fsockopen ($protocol.$host, $configs [$i] [1], $errno, $errstr, 5);
+                    if ($soc) {
+                        fclose ($soc);
+                        $connected = $i;
+                        $port = $configs [$i] [1];
+                        $ssl = $configs [$i] [0];
+                        break;
+                    }
                 }
             }
 
-            if ($connected) {
-                if ('ssl://' == $configs [$i] [0]){
-                    update_option ('mj_ssl', 'ssl');
-                } elseif ('tls://' == $configs [$i] [0]) {
-                    update_option ('mj_ssl', 'tls');
-                } else {
-                    update_option ('mj_ssl', '');
-                }
+            if ($connected !== FALSE) {
+                update_option ('mailjet_ssl', $ssl);
 
-                update_option ('mj_port', $configs [$i] [1]);
+                update_option ('mailjet_port', $port);
+
                 $test_sent = false;
-                if ($fields ['mj_test']) {
+                if ($fields ['mailjet_test']) {
                     $subject = __('Your test mail from Mailjet', 'wp-mailjet');
-                    $message = __('Your Mailjet configuration is ok!', 'wp-mailjet');
-                    $enabled = get_option ('mj_enabled');
-                    update_option ('mj_enabled', 1);
-                    $test_sent = wp_mail($fields ['mj_test_address'], $subject, $message);
-                    update_option ('mj_enabled', $enabled);
+                    $message = sprintf(__('Your Mailjet configuration is ok!'."\r\n".'SSL: %s Port: %s', 'wp-mailjet'), ($ssl ? 'On' : 'Off'), $port);
+                    $enabled = get_option ('mailjet_enabled');
+                    update_option ('mailjet_enabled', 1);
+                    $test_sent = wp_mail($fields ['mailjet_test_address'], $subject, $message);
+                    update_option ('mailjet_enabled', $enabled);
                 }
 
                 $sent = '';
                 if($test_sent){
                     $sent = __(' and your test message was sent.', 'wp-mailjet');
                 }
-
-                WP_Mailjet_Utils::custom_notice('updated', __('Your settings have been saved successfully', 'wp-mailjet').$sent);
+                if($connected === TRUE){
+                    WP_Mailjet_Utils::custom_notice('updated', __('Your settings have been saved successfully', 'wp-mailjet').$sent);
+                }elseif($connected >= 0) {
+                    WP_Mailjet_Utils::custom_notice('updated', __('Your settings have been saved, but your port and SSL settings were changed as follows to ensure delivery', 'wp-mailjet').$sent);
+                }
             } else {
                 WP_Mailjet_Utils::custom_notice('error', sprintf (__ ('Please contact Mailjet support to sort this out.<br /><br />%d - %s', 'wp-mailjet'), $errno, $errstr));
             }
         }else{
+            //var_dump($errors);
             WP_Mailjet_Utils::custom_notice('error', __('There is an error with your settings. please correct and try again', 'wp-mailjet'));
         }
     }
