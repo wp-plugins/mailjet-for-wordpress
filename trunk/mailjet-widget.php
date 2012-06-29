@@ -9,14 +9,24 @@ class MailjetSubscribeWidget extends WP_Widget
     {
 
         //No dependency injection possible, so we have to use this:
-        $this->api = new Mailjet(get_option('mj_username'), get_option('mj_password'));
-        $this->lists = $this->api->listsAll()->lists;
+        $this->api = new Mailjet(get_option('mailjet_username'), get_option('mailjet_password'));
+        $apiLists = $this->api->listsAll();
+        if($apiLists){
+            $this->lists = $apiLists->lists;
+        }else{
+            $this->lists = array();
+        }
+
         $widget_ops = array('classname' => 'MailjetSubscribeWidget', 'description' => 'Allows your visitors to subscribe to one of your lists' );
         parent::__construct( false, 'Subscribe to our newsletter', $widget_ops );
-        add_action( 'wp_ajax_mailjet_subscribe_ajax_hook', array($this, 'the_action_function') );
-        add_action( 'wp_ajax_nopriv_mailjet_subscribe_ajax_hook', array($this, 'the_action_function'));
+        add_action( 'wp_ajax_mailjet_subscribe_ajax_hook', array($this, 'mailjet_subscribe_from_widget') );
+        add_action( 'wp_ajax_nopriv_mailjet_subscribe_ajax_hook', array($this, 'mailjet_subscribe_from_widget'));
 
-
+        wp_enqueue_script( 'ajax-example', plugin_dir_url( __FILE__ ) . 'js/ajax.js', array( 'jquery' ) );
+        wp_localize_script( 'ajax-example', 'WPMailjet', array(
+            'ajaxurl' => admin_url( 'admin-ajax.php' ),
+            'nonce' => wp_create_nonce( 'ajax-example-nonce' )
+        ) );
     }
 
     function form($instance)
@@ -35,9 +45,9 @@ class MailjetSubscribeWidget extends WP_Widget
     <p>
         <label for="<?php echo $this->get_field_id('list_id'); ?>">
             List:
-            <select class="widefat" id="<?php echo $this->get_field_id('list_id'); ?>" name="<?php echo $this->get_field_name('list_id'); ?>" value="<?php echo esc_attr($list_id); ?>">
+            <select class="widefat" id="<?php echo $this->get_field_id('list_id'); ?>" name="<?php echo $this->get_field_name('list_id'); ?>">
                 <?php foreach($this->lists as $list) { ?>
-                <option value="<?php echo $list->id?>"><?php echo $list->label?></option>
+                <option value="<?php echo $list->id?>"<?php echo ($list->id == esc_attr($list_id) ? ' selected="selected"' : '') ?>><?php echo $list->label?></option>
                 <?php } ?>
             </select>
         </label>
@@ -54,7 +64,7 @@ class MailjetSubscribeWidget extends WP_Widget
     }
 
 
-    public function the_action_function(){
+    public function mailjet_subscribe_from_widget(){
         $email = $_POST['email'];
         $list_id = $_POST['list_id'];
         $params = array(
@@ -76,16 +86,6 @@ class MailjetSubscribeWidget extends WP_Widget
 
     function widget($args, $instance)
     {
-
-        //die();
-        wp_enqueue_script( 'ajax-example', plugin_dir_url( __FILE__ ) . 'js/ajax.js', array( 'jquery' ) );
-        wp_localize_script( 'ajax-example', 'WPMailjet', array(
-            'ajaxurl' => admin_url( 'admin-ajax.php' ),
-            'nonce' => wp_create_nonce( 'ajax-example-nonce' )
-        ) );
-
-
-
         extract($args, EXTR_SKIP);
 
         echo $before_widget;

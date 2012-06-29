@@ -1,9 +1,9 @@
 === Mailjet for Wordpress ===
 Contributors: mailjet
 Tags: email, marketing, signup, newsletter, widget, smtp, mailjet
-Requires at least: 3
+Requires at least: 3.2.1
 Tested up to: 3.4
-Stable tag: 1.1
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,15 +21,15 @@ Mailjet's official plugin for WordPress will:
 
 
 **Secure & real-time SMTP relay for all your emails**
-A lot of features and plugins from your WordPress site send email notifications. All these messages are very important for your users, as well as for your business. Therefore, you want to track success and ensure a successful delivery. 
+- A lot of features and plugins from your WordPress site send email notifications. All these messages are very important for your users, as well as for your business. Therefore, you want to track success and ensure a successful delivery. 
 
-Our plugin simply extends the WordPress wp_mail() function, to use Mailjet's SMTP instead. This will improve your deliverability. You will also get live and in-depth statistics to track and optimize in real time.
+Our plugin simply extends the WordPress wp_mail() function, to use Mailjet's SMTP instead. This will improve your deliverability. You will also get live and in-depth statistics to track and optimize in real time. Making the choice of Mailjet is the right solution for your [transactional emails](http://www.mailjet.com/features/transactional-email.html) , [bulk emails](http://www.mailjet.com/features/bulk-email.html) and [newsletter emails](https://www.mailjet.com/features/newsletter-service.html).
 
 **Sign up form & contact lists Management**
-Another great feature of this plugin is the sign up form Widget. It allows your site visitors to join your Mailjet lists. You can create contact lists directly from the plugin dashboard. The Widget will let you add forms to any post or any page.
+-  Another great feature of this plugin is the sign up form Widget. It allows your site visitors to join your Mailjet lists. You can create contact lists directly from the plugin dashboard. The Widget will let you add forms to any post or any page.
 
 **Installing the Plugin**
-Enable Mailjet's Plugin like you would do for any other Wordpress plugin. Enter your Mailjet credentials and refer to the FAQs for any other information. If you don't have a Mailjet account yet, [http://www.mailjet.com signup_now] for free!
+-  Enable Mailjet's Plugin like you would do for any other Wordpress plugin. Enter your Mailjet credentials and refer to the FAQs for any other information. If you don't have a Mailjet account yet, [signup now](http://www.mailjet.com) for free!
 
 
 == Installation ==
@@ -43,7 +43,7 @@ Enable Mailjet's Plugin like you would do for any other Wordpress plugin. Enter 
 == Frequently Asked Questions ==
 
 = What is Mailjet? =
-[http://www.mailjet.com Mailjet] is an all-in-one solution to send, track and deliver both marketing and transactional emails. Its Cloud-Based infrastructure is unique and highly scalable. A proprietary technology optimizes the sending and the deliverability of your messages. 
+[Mailjet](http://www.mailjet.com) is an all-in-one solution to send, track and deliver both marketing and transactional emails. Its Cloud-Based infrastructure is unique and highly scalable. A proprietary technology optimizes the sending and the deliverability of your messages. 
 
 = Why use Mailjet as an SMTP relay for Wordpress? =
 1 in 4 legitimate email gets lost or ends up a the spam folder. By Sending your email through Mailjet's SMTP relay, you will avoid this and make sure that your recipients receive your messages in real time, straight into their inbox. You will also be able to track the delivery (opens, bounces, etc.) as well as the activity of your emails (clicks, opens, etc.). On top of that, tools such as our Newsletter editor will let you create and send a beautiful marketing campaign in only a few minutes. All this added value comes with no engagement and very low prices.  
@@ -69,6 +69,16 @@ This plugin is currently available in English, French, Spanish and German. Suppo
 
 
 == Changelog ==
+
+= 1.1.5 =
+* Added: HTTP Port Configuration 
+
+= 1.1.3 =
+* Bugfix: Correct ajax request for WordPress 3.2.1 
+* Bugfix: Correct widget creation 
+
+= 1.1.1 =
+* added readme and translations files
 
 = 1.1 =
 * Bug fix: compatibility with WordPress 3.4

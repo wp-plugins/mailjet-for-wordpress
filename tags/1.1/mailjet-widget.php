@@ -9,8 +9,14 @@ class MailjetSubscribeWidget extends WP_Widget
     {
 
         //No dependency injection possible, so we have to use this:
-        $this->api = new Mailjet(get_option('mj_username'), get_option('mj_password'));
-        $this->lists = $this->api->listsAll()->lists;
+        $this->api = new Mailjet(get_option('mailjet_username'), get_option('mailjet_password'));
+        $apiLists = $this->api->listsAll();
+        if($apiLists){
+            $this->lists = $apiLists->lists;
+        }else{
+            $this->lists = array();
+        }
+
         $widget_ops = array('classname' => 'MailjetSubscribeWidget', 'description' => 'Allows your visitors to subscribe to one of your lists' );
         parent::__construct( false, 'Subscribe to our newsletter', $widget_ops );
         add_action( 'wp_ajax_mailjet_subscribe_ajax_hook', array($this, 'mailjet_subscribe_from_widget') );

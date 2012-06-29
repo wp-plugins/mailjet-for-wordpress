@@ -19,6 +19,13 @@ class WPMailjet {
         add_action('phpmailer_init',array($this, 'phpmailer_init_smtp'));
 
         add_action('admin_menu', array($this, 'display_menu'));
+        add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
+
+    }
+
+    public function enqueue_scripts(){
+        wp_register_script('mailjet_js', plugins_url('/js/mailjet.js', __FILE__), array('jquery'));
+        wp_enqueue_script( 'mailjet_js');
     }
 
     public function display_menu()
@@ -33,20 +40,21 @@ class WPMailjet {
 
     function phpmailer_init_smtp (PHPMailer $phpmailer)
     {
-        if (! get_option ('mj_enabled') || 0 == get_option('mj_enabled')) return;
+        if (! get_option ('mailjet_enabled') || 0 == get_option('mailjet_enabled')) return;
 
         $phpmailer->Mailer = 'smtp';
-        $phpmailer->SMTPSecure = get_option ('mj_ssl');
+        $phpmailer->SMTPSecure = get_option ('mailjet_ssl');
 
         $phpmailer->Host = MJ_HOST;
-        $phpmailer->Port = get_option ('mj_port');
+        $phpmailer->Port = get_option ('mailjet_port');
 
         $phpmailer->SMTPAuth = TRUE;
-        $phpmailer->Username = get_option('mj_username');
-        $phpmailer->Password = get_option('mj_password');
+        $phpmailer->Username = get_option('mailjet_username');
+        $phpmailer->Password = get_option('mailjet_password');
 
-        $phpmailer->From = get_option('admin_email');
-        $from_email = (get_option('mj_from_email') ? get_option('mj_from_email') : get_option('admin_email'));
+
+        $from_email = (get_option('mailjet_from_email') ? get_option('mailjet_from_email') : get_option('admin_email'));
+        $phpmailer->From = $from_email;
         $phpmailer->Sender = $from_email;
         $phpmailer->AddCustomHeader(MJ_MAILER);
 
@@ -252,8 +260,7 @@ class WPMailjet {
 
     protected function show_all_contacts()
     {
-        wp_register_script('mailjet_js', plugins_url('/js/mailjet.js', __FILE__), array('jquery'));
-        wp_enqueue_script( 'mailjet_js');
+
         echo '<div class="wrap"><div class="icon32"><img src="'.plugin_dir_url( __FILE__ ).'/images/mj_logo_med.png'.'" /></div><h2>';
         echo __('Mailjet Contacts');
         echo'</h2>

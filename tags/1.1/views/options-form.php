@@ -63,8 +63,9 @@ class Options_Form_Option
     protected $type;
     protected $desc;
     protected $required;
+    protected $options;
 
-    public function __construct($id, $label, $type, $value = "", $desc="", $required = false)
+    public function __construct($id, $label, $type, $value = "", $desc="", $required = false, $options = null)
     {
         $this->id = $id;
         $this->label = $label;
@@ -73,6 +74,7 @@ class Options_Form_Option
         update_option($id, $value);
         $this->desc = $desc;
         $this->required = $required;
+        $this->options = $options;
     }
 
     public function display()
@@ -85,7 +87,7 @@ class Options_Form_Option
                             <label for="'.$this->getId().'">'.$this->getLabel().'</label>
                         </th>
                         <td>
-                            <input name="'.$this->getId().'" type="'.$this->getType().'" id="'.$this->getId().'" value="'.$this->getValue().'" class="regular-text code"'.($this->required ? 'required="required"': '' ).'>
+                            <input name="'.$this->getId().'" type="'.$this->getType().'" id="'.$this->getId().'" value="'.$this->getValue().'" class="regular-text code"'.($this->getRequired() ? 'required="required"': '' ).'>
                         </td>
                     </tr>';
 
@@ -101,12 +103,36 @@ class Options_Form_Option
                         <span>'.$this->getLabel().'</span>
                     </legend>
                     <label for="'.$this->getId().'">
-                    <input name="'.$this->getId().'" type="'.$this->getType().'" id="'.$this->getId().'" value="1"'.(get_option($this->getId()) ? 'checked="checked"':'').'">
+                    <input name="'.$this->getId().'" type="'.$this->getType().'" id="'.$this->getId().'" value="1"'.(get_option($this->getId()) ? ' checked="checked"':'').'">
                     '.$this->getLabel().'
                     </label>
                 </fieldset>
             </td>
         </tr>';
+        }elseif($this->type == 'select') {
+            $sel =  '
+        <tr valign="top">
+            <th scope="row">
+                '.$this->getDesc().'
+            </th>
+            <td>
+                <fieldset>
+                    <legend class="screen-reader-text">
+                        <span>'.$this->getLabel().'</span>
+                    </legend>
+                    <label for="'.$this->getId().'">
+                    <select name="'.$this->getId().'" type="'.$this->getType().'" id="'.$this->getId().'">';
+            foreach($this->getOptions() as $option) {
+                $sel .= '<option value="'.$option['value'].'"'.(get_option($this->getId()) == $option['value'] ? ' selected="selected"':'').'>'.$option['label'].'</option>';
+            }
+
+            $sel .= '        </select>
+                    '.$this->getLabel().'
+                    </label>
+                </fieldset>
+            </td>
+        </tr>';
+            echo $sel;
         }
     }
 
@@ -160,6 +186,27 @@ class Options_Form_Option
     {
         return $this->desc;
     }
+
+    public function setOptions($options)
+    {
+        $this->options = $options;
+    }
+
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    public function setRequired($required)
+    {
+        $this->required = $required;
+    }
+
+    public function getRequired()
+    {
+        return $this->required;
+    }
+
 }
 
 class Options_Form_Fieldset
