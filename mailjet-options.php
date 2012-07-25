@@ -37,22 +37,21 @@ class WPMailjet_Options {
 
     public function show_settings_menu()
     {
-
         if(!empty($_POST)){
             $this->save_settings();
         }
 
         echo '<div class="wrap"><div class="icon32"><img src="'.plugin_dir_url( __FILE__ ).'/images/mj_logo_med.png'.'" /></div><h2>';
-        echo __('Mailjet Settings');
+        echo __('Mailjet Settings','wp-mailjet');
         echo'</h2>';
 
         $form = new Mailjet_Options_Form('admin.php?page=wp_mailjet_options_top_menu&action=save_options');
 
         $desc = '<ol>';
-        $desc .= '<li>'.__('<a href="https://www.mailjet.com/signup">Create your Mailjet account</a> or visit your <a href="https://fr.mailjet.com/account/api_keys">account page</a> to get your API keys.').'</li>';
-        $desc .= '<li>'.__('<a href="https://fr.mailjet.com/contacts/lists/add">Create a new list</a> if you don\'t have one or need a new one.').'</li>';
-        $desc .= '<li>'.__('<a href="widgets.php">Add</a> the email collection widget to your sidebar or footer.').'</li>';
-        $desc .= '<li>'.__('<a href="https://fr.mailjet.com/campaigns/create">Create a campaign</a> on mailjet.com to send your newsletter.').'</li>';
+        $desc .= '<li>'.__('<a href="https://www.mailjet.com/signup">Create your Mailjet account</a> or visit your <a href="https://fr.mailjet.com/account/api_keys">account page</a> to get your API keys.','wp-mailjet').'</li>';
+        $desc .= '<li>'.__('<a href="https://fr.mailjet.com/contacts/lists/add">Create a new list</a> if you don\'t have one or need a new one.','wp-mailjet').'</li>';
+        $desc .= '<li>'.__('<a href="widgets.php">Add</a> the email collection widget to your sidebar or footer.','wp-mailjet').'</li>';
+        $desc .= '<li>'.__('<a href="https://fr.mailjet.com/campaigns/create">Create a campaign</a> on mailjet.com to send your newsletter.','wp-mailjet').'</li>';
 
         $desc .= '</ol>';
 
