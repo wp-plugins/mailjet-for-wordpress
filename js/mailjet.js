@@ -6,6 +6,18 @@
  * To change this template use File | Settings | File Templates.
  */
 jQuery(document).ready(function($){
+    showPorts = function($el){
+        if($el.attr('checked') == 'checked'){
+            $('#mailjet_port').find('option').show();
+            $('#mailjet_port').find('option[value=25]').hide().removeAttr('selected');
+            $('#mailjet_port').find('option[value=587]').hide().removeAttr('selected');
+            $('#mailjet_port').find('option[value=465]').attr('selected', 'selected');
+
+        }else{
+            $('#mailjet_port').find('option').show();
+            $('#mailjet_port').find('option[value=465]').hide().removeAttr('selected');
+        }
+    }
     $('#addContact').on('click', function(e){
         e.preventDefault();
         var contactInput = $('#firstContactAdded').clone();
@@ -17,5 +29,10 @@ jQuery(document).ready(function($){
         $('select[name=action]').val($(this).val());
     })
 
+    $('#mailjet_ssl').change(function(e){
+        showPorts($(this));
+    })
 
+
+    showPorts($('#mailjet_ssl'));
 });
