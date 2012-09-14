@@ -16,6 +16,7 @@ class WPMailjet {
 
         $this->api = $api;
         $this->phpmailer = $phpMailer;
+
         add_action('phpmailer_init',array($this, 'phpmailer_init_smtp'));
 
         add_action('admin_menu', array($this, 'display_menu'));
@@ -32,7 +33,9 @@ class WPMailjet {
     {
         if (function_exists('add_submenu_page')) {
 
-            add_submenu_page( 'wp_mailjet_options_top_menu', 'Manage your mailjet lists', 'Lists', 'manage_options', 'wp_mailjet_options_contacts_menu', array($this, 'show_contacts_menu') );
+            add_submenu_page( 'wp_mailjet_options_top_menu', 'Manage your Mailjet lists', 'Lists', 'manage_options', 'wp_mailjet_options_contacts_menu', array($this, 'show_contacts_menu') );
+            add_submenu_page( 'wp_mailjet_options_top_menu', 'Manage your Mailjet campaigns', 'Campaigns', 'manage_options', 'wp_mailjet_options_campaigns_menu', array($this, 'show_campaigns_menu') );
+            add_submenu_page( 'wp_mailjet_options_top_menu', 'View your Mailjet statistics', 'Statistics', 'manage_options', 'wp_mailjet_options_stats_menu', array($this, 'show_stats_menu') );
         }
 
     }
@@ -59,6 +62,72 @@ class WPMailjet {
         $phpmailer->AddCustomHeader(MJ_MAILER);
 
     }
+
+    private function _get_auth_token()
+    {
+        if($op = get_option('mailjet_token'.$_SERVER['REMOTE_ADDR'])){
+            $op = json_decode($op);
+
+            if($op->timestamp > time()-3600)
+                return $op->token;
+        }
+
+        if(!defined('WPLANG')){
+            $locale = 'en';
+        }else {
+            $locale = substr(WPLANG, 0, 2);
+            if (!in_array($locale, array('en', 'fr', 'es', 'de'))){
+                $locale = 'en';
+            }
+        }
+
+        $body = array(
+            'allowed_access[0]' => 'stats',
+            'allowed_access[1]' => 'contacts',
+            'allowed_access[2]' => 'campaigns',
+            'lang' => $locale,
+            'default_page'=> 'campaigns',
+            'type' => 'page',
+            'apikey' => get_option('mailjet_username'),
+        );
+
+        $params = array(
+            'headers' => array( 'Authorization' => 'Basic '.base64_encode(get_option('mailjet_username').':'.get_option('mailjet_password'))),
+            'body' => $body,
+        );
+
+        $res = wp_remote_post('http://api.mailjet.com/0.1/apiKeyauthenticate?output=json', $params);
+
+        if(is_array($res)) {
+            $resp = json_decode($res['body']);
+            if ($resp->status == 'OK') {
+                update_option('mailjet_token'.$_SERVER['REMOTE_ADDR'], json_encode(array('token' => $resp->token, 'timestamp' => time())));
+                return $resp->token;
+            }
+        }
+    }
+
+    public function show_campaigns_menu()
+    {
+        $token = $this->_get_auth_token();
+
+        echo '<div class="wrap"><div class="icon32"><img src="'.plugin_dir_url( __FILE__ ).'/images/mj_logo_med.png'.'" /></div><h2>';
+        echo __('Campaigns');
+        echo'</h2></div>';
+        echo '<iframe width="980px" height="1200" src="https://www.mailjet.com/campaigns?t='.$token.'"></iframe>';
+    }
+
+    public function show_stats_menu()
+    {
+        $token = $this->_get_auth_token();
+
+        echo '<div class="wrap"><div class="icon32"><img src="'.plugin_dir_url( __FILE__ ).'/images/mj_logo_med.png'.'" /></div><h2>';
+        echo __('Statistics');
+        echo'</h2></div>';
+        echo '<iframe width="980px" height="1200" src="https://www.mailjet.com/stats?t='.$token.'"></iframe>';
+
+    }
+
 
 
     public function show_contacts_menu()
@@ -117,7 +186,7 @@ class WPMailjet {
                 'contacts' => $contacts,
                 'id' => $_POST['list_id']
             );
-# Call
+
             $response = $this->api->listsAddManyContacts($params);
 
         }
@@ -151,7 +220,6 @@ class WPMailjet {
 
         wp_register_script('mailjet_js', plugins_url('/js/mailjet.js', __FILE__), array('jquery'));
         wp_enqueue_script( 'mailjet_js');
-//        add_action(' admin_print_scripts-wp_mailjet_options_contacts_menu', array($this, 'load_js'));
 
         echo '<div class="wrap"><div class="icon32"><img src="'.plugin_dir_url( __FILE__ ).'/images/mj_logo_med.png'.'" /></div><h2>';
         echo __('Add contact to list '.$label);

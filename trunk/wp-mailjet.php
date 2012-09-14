@@ -101,7 +101,5 @@ function mailjet_settings_link( $links, $file ) {
 }
 add_filter( 'plugin_action_links', 'mailjet_settings_link', 10, 2);
 
-// Add an activation hook for this plugin
-register_activation_hook(__FILE__,'wp_mailjet_activate');
 
 load_plugin_textdomain ('wp-mailjet', FALSE, dirname (plugin_basename(__FILE__)) . '/i18n');
