@@ -89,8 +89,12 @@ class Mailjet_List_Table extends WP_List_Table {
         if(!empty($orderby) & !empty($order)){
             $api_order = $orderby.' '.$order;
         }
-
-        $totalitems = count($this->api->listsAll()->lists);
+        $l = $this->api->listsAll();
+        if(!$l || !$l->status=='OK'){
+            $this->items = array();
+            return;
+        }
+        $totalitems = count($l->lists);
 
         //How many to display per page?
         $perpage = 20;
