@@ -68,10 +68,13 @@ Once your Mailjet plugin is installed, click on "Appearance" in the left-side me
 
 1. Simply change a few parameters to get started.
 2. Manage your lists and contacts in no time!
-
+3. Create and send beautiful email campaigns
+4. View detailed statistics about your account
 
 
 == Changelog ==
+= 1.2.1 =
+* Added campaigns and statistics management
 
 = 1.1.5 =
 * Added: HTTP Port Configuration 
