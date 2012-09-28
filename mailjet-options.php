@@ -133,6 +133,7 @@ class WPMailjet_Options {
 
         if (! count ($errors)) {
             update_option('mailjet_enabled', $fields['mailjet_enabled']);
+            update_option('mailjet_token'.$_SERVER['REMOTE_ADDR'], json_encode(array('timestamp' => 0)));
             update_option('mailjet_test', $fields['mailjet_test']);
             update_option('mailjet_test_address', $fields ['mailjet_test_address']);
             update_option('mailjet_from_email', $fields ['mailjet_from_email']);
