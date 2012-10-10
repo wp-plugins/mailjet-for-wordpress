@@ -17,7 +17,7 @@ class MailjetSubscribeWidget extends WP_Widget
             $this->lists = array();
         }
 
-        $widget_ops = array('classname' => 'MailjetSubscribeWidget', 'description' => 'Allows your visitors to subscribe to one of your lists' );
+        $widget_ops = array('classname' => 'MailjetSubscribeWidget', 'description' => __('Allows your visitors to subscribe to one of your lists') );
         parent::__construct( false, 'Subscribe to our newsletter', $widget_ops );
         add_action( 'wp_ajax_mailjet_subscribe_ajax_hook', array($this, 'mailjet_subscribe_from_widget') );
         add_action( 'wp_ajax_nopriv_mailjet_subscribe_ajax_hook', array($this, 'mailjet_subscribe_from_widget'));
@@ -31,20 +31,27 @@ class MailjetSubscribeWidget extends WP_Widget
 
     function form($instance)
     {
-        $instance = wp_parse_args( (array) $instance, array( 'title' => '', 'list_id' => '' ) );
+        $instance = wp_parse_args( (array) $instance, array( 'title' => '', 'list_id' => '' , 'button_text' => '' ) );
         $title = $instance['title'];
         $list_id = $instance['list_id'];
+        $button_text = $instance['button_text'];
         ?>
     <p>
         <label for="<?php echo $this->get_field_id('title'); ?>">
-            Title:
+            <?php echo __('Title:') ?>
             <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" />
+        </label>
+    </p>
+    <p>
+        <label for="<?php echo $this->get_field_id('button_text'); ?>">
+            <?php echo __('Button text:') ?>
+            <input class="widefat" id="<?php echo $this->get_field_id('button_text'); ?>" name="<?php echo $this->get_field_name('button_text'); ?>" type="text" value="<?php echo esc_attr($button_text); ?>" />
         </label>
     </p>
 
     <p>
         <label for="<?php echo $this->get_field_id('list_id'); ?>">
-            List:
+            <?php echo __('List:') ?>
             <select class="widefat" id="<?php echo $this->get_field_id('list_id'); ?>" name="<?php echo $this->get_field_name('list_id'); ?>">
                 <?php foreach($this->lists as $list) { ?>
                 <option value="<?php echo $list->id?>"<?php echo ($list->id == esc_attr($list_id) ? ' selected="selected"' : '') ?>><?php echo $list->label?></option>
@@ -60,6 +67,7 @@ class MailjetSubscribeWidget extends WP_Widget
         $instance = $old_instance;
         $instance['title'] = $new_instance['title'];
         $instance['list_id'] = $new_instance['list_id'];
+        $instance['button_text'] = $new_instance['button_text'];
         return $instance;
     }
 
@@ -91,6 +99,7 @@ class MailjetSubscribeWidget extends WP_Widget
         echo $before_widget;
         $title = empty($instance['title']) ? ' ' : apply_filters('widget_title', $instance['title']);
         $list_id = $instance['list_id'];
+        $button_text = $instance['button_text'];
         if (!empty($title))
             echo $before_title . $title . $after_title;;
 
@@ -100,7 +109,7 @@ class MailjetSubscribeWidget extends WP_Widget
             <input id="email" name="email" value="" type="email" placeholder="'.__('your@email.com',' wp-mailjet').'" />
             <input name="action" type="hidden" value="mailjet_subscribe_ajax_hook" />
             <input name="list_id" type="hidden" value="'.$list_id.'" />
-            <input name="submit" type="submit" class="mailjet-subscribe" value="'.__('Subscribe',' wp-mailjet').'">
+            <input name="submit" type="submit" class="mailjet-subscribe" value="'.$button_text.'">
         </form>
         <div class="response">
         </div>';

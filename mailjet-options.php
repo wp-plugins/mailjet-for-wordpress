@@ -191,7 +191,7 @@ class WPMailjet_Options {
                 $test_sent = false;
                 if ($fields ['mailjet_test']) {
                     $subject = __('Your test mail from Mailjet', 'wp-mailjet');
-                    $message = sprintf(__('Your Mailjet configuration is ok!'."\r\n".'SSL: %s Port: %s', 'wp-mailjet'), ($ssl ? 'On' : 'Off'), $port);
+                    $message = sprintf(__('Your Mailjet configuration is ok!'.'SSL: %s Port: %s', 'wp-mailjet'), ($ssl ? 'On' : 'Off'), $port);
                     $enabled = get_option ('mailjet_enabled');
                     update_option ('mailjet_enabled', 1);
                     $test_sent = wp_mail($fields ['mailjet_test_address'], $subject, $message);
