@@ -12,7 +12,7 @@ class WPMailjet {
         $this->pluginPath = dirname(__FILE__);
 
         // Set Plugin URL
-        $this->pluginUrl = WP_PLUGIN_URL . '/wp-mailjet';
+        $this->pluginUrl = WP_PLUGIN_URL . dirname(__FILE__);
 
         $this->api = $api;
         $this->phpmailer = $phpMailer;

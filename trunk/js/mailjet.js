@@ -11,11 +11,14 @@ jQuery(document).ready(function($){
             $('#mailjet_port').find('option').show();
             $('#mailjet_port').find('option[value=25]').hide().removeAttr('selected');
             $('#mailjet_port').find('option[value=587]').hide().removeAttr('selected');
+            $('#mailjet_port').find('option[value=588]').hide().removeAttr('selected');
+            $('#mailjet_port').find('option[value=80]').hide().removeAttr('selected');
             $('#mailjet_port').find('option[value=465]').attr('selected', 'selected');
 
         }else{
             $('#mailjet_port').find('option').show();
             $('#mailjet_port').find('option[value=465]').hide().removeAttr('selected');
+            $('#mailjet_port').find('option[value=25]').attr('selected', 'selected');
         }
     }
     $('#addContact').on('click', function(e){
