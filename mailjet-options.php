@@ -69,6 +69,8 @@ class WPMailjet_Options {
             array('value' => 25, 'label' => 25),
             array('value' => 465, 'label' => 465),
             array('value' => 587, 'label' => 587),
+            array('value' => 588, 'label' => 588),
+            array('value' => 80, 'label' => 80),
         );
         $generalOptions[] = new Options_Form_Option('mailjet_port', '', 'select', get_option('mailjet_port'), __('Port to use for SMTP communication', 'wp-mailjet'), false, $ports);
         $generalOptions[] = new Options_Form_Option('mailjet_test', __('Send test email', 'wp-mailjet'), 'checkbox',  get_option('mailjet_test'), __('Send test email now', 'wp-mailjet'));
@@ -151,6 +153,7 @@ class WPMailjet_Options {
                 array ('tls', 587),
                 array ('', 587),
                 array ('', 588),
+                array ('', 80),
             );
 
             $host = MJ_HOST;
