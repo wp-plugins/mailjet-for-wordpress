@@ -44,7 +44,18 @@ class WPMailjet_Options {
         echo '<div class="wrap"><div class="icon32"><img src="'.plugin_dir_url( __FILE__ ).'/images/mj_logo_med.png'.'" /></div><h2>';
         echo __('Mailjet Settings','wp-mailjet');
         echo'</h2>';
+        echo '<div class="postbox-container updated" style="width:25%;float:right">
+        <h3>'.__('Share the love!').'</h3>
+        <div style="margin-bottom:10px">
+        '.__('<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FMailjet&amp;send=false&amp;layout=button_count&amp;width=150&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21&amp;appId=352489811497917" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:150px; height:21px;" allowTransparency="true"></iframe>').'
+        </div>
+        <div style="margin-bottom:10px">
+        '.__('<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://mailjet.com" data-text="Improve your email deliverability and monitor action in real time." data-via="mailjet">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>').'
+        </div>
 
+
+        </div>
+        <div style="width:70%;float: left;">';
         $form = new Mailjet_Options_Form('admin.php?page=wp_mailjet_options_top_menu&action=save_options');
 
         $desc = '<ol>';
@@ -102,7 +113,7 @@ class WPMailjet_Options {
 
         $form->display();
 
-        echo '</div>';
+        echo '</div></div>';
     }
 
 
