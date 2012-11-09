@@ -1,0 +1,288 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Mailjet for wordpress\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-11-07 09:39+0100\n"
+"PO-Revision-Date: 2012-11-07 09:40+0100\n"
+"Last-Translator: Jonathan Foucher <jfoucher@gmail.com>\n"
+"Language-Team: Mailjet <info@mailjet.com>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: wp-mailjet.php:83
+#, php-format
+msgid "The mailjet plugin is enabled but your credentials are not set. Please <a href=\"admin.php?page=wp_mailjet_options_top_menu\" title=\"enable Mailjet plugin\">do so now</a> to send your emails through <b>Mailjet</b> <a href=\"%1$s\" style=\"display:block; float:right;\">Hide Notice</a>"
+msgstr "El plugin de Mailjet está activado pero sus credenciales no están establecidas. Por favor  <a href=\"admin.php?page=wp_mailjet_options_top_menu\" title=\"enable Mailjet plugin\">hágalo ahora</a> para enviar sus emails a través de  <b>Mailjet</b> <a href=\"%1$s\" style=\"display:block; float:right;\">Quitar notificación</a>"
+
+#: wp-mailjet.php:96
+msgid "Settings"
+msgstr "Parámetros"
+
+#: mailjet-widget.php:20
+msgid "Allows your visitors to subscribe to one of your lists"
+msgstr "Permite que sus usuarios suscriban a una de sus listas"
+
+#: mailjet-widget.php:41
+msgid "Title:"
+msgstr "Título:"
+
+#: mailjet-widget.php:47
+msgid "Button text:"
+msgstr "Texto del botón:"
+
+#: mailjet-widget.php:54
+msgid "List:"
+msgstr "Lista:"
+
+#: mailjet-widget.php:87
+#, php-format
+msgid "<p class=\"success\">Thanks for subscribing to <b>%s</b>, %s</p>"
+msgstr "<p class=\"success\">Gracias por registrarse a <b>%s</b>, %s</p>"
+
+#: mailjet-widget.php:89
+#, php-format
+msgid "<p class=\"error\">Sorry %s we couldn't subscribe you to <b>%s</b> at this time</p>"
+msgstr "<p class=\"error\">Lo sentimos %s no hemos podido registrarle a <b>%s</b> en este momento</p>"
+
+#: mailjet-widget.php:109
+msgid "your@email.com"
+msgstr "su@email.com"
+
+#: mailjet-class.php:115
+msgid "Campaigns"
+msgstr "Campañas"
+
+#: mailjet-class.php:125
+msgid "Statistics"
+msgstr "Estadísticas"
+
+#: mailjet-class.php:199
+msgid "Only alphanumeric characters may be used for the list name"
+msgstr "Solo se pueden usar carácteres alfanuméricos para el nombre de la lista"
+
+#: mailjet-class.php:225
+msgid "Add contact to list "
+msgstr "Añadir contactos a la lista"
+
+#: mailjet-class.php:233
+msgid "More"
+msgstr "Más"
+
+#: mailjet-class.php:243
+msgid "Create new list"
+msgstr "Crear una nueva lista"
+
+#: mailjet-class.php:287
+msgid "Your contact was successfully deleted."
+msgstr "Su contacto ha sido eliminado"
+
+#: mailjet-class.php:290
+msgid "Your contact could not be deleted."
+msgstr "Su contacto no ha podido ser eliminado."
+
+#: mailjet-class.php:303
+#, php-format
+msgid "Your list <b>%s</b> was successfully deleted."
+msgstr "Su lista <b>%s</b> ha sido eliminada."
+
+#: mailjet-class.php:306
+#, php-format
+msgid "Your list <b>%s</b> could not be deleted."
+msgstr "Su lista <b>%s</b> no ha podido ser eliminada."
+
+#: mailjet-class.php:315
+msgid "Mailjet Lists"
+msgstr "Listas Mailjet"
+
+#: mailjet-class.php:316
+#: mailjet-class.php:352
+msgid "Add new"
+msgstr "Añadir nueva"
+
+#: mailjet-class.php:333
+msgid "Mailjet Contacts"
+msgstr "Contactos Mailjet"
+
+#: mailjet-class.php:351
+msgid "Edit contacts for "
+msgstr "Editar contactos para"
+
+#: mailjet-options.php:45
+msgid "Mailjet Settings"
+msgstr "Parámetros Mailjet"
+
+#: mailjet-options.php:48
+msgid "Share the love!"
+msgstr "¡Compartir!"
+
+#: mailjet-options.php:50
+msgid "<iframe src=\"//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FMailjet&amp;send=false&amp;layout=button_count&amp;width=150&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21&amp;appId=352489811497917\" scrolling=\"no\" frameborder=\"0\" style=\"border:none; overflow:hidden; width:150px; height:21px;\" allowTransparency=\"true\"></iframe>"
+msgstr ""
+
+#: mailjet-options.php:53
+msgid "<a href=\"https://twitter.com/share\" class=\"twitter-share-button\" data-url=\"http://mailjet.com\" data-text=\"Improve your email deliverability and monitor action in real time.\" data-via=\"mailjet\">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=\"//platform.twitter.com/widgets.js\";fjs.parentNode.insertBefore(js,fjs);}}(document,\"script\",\"twitter-wjs\");</script>"
+msgstr "<a href=\"https://twitter.com/share\" class=\"twitter-share-button\" data-url=\"http://mailjet.com\" data-text=\"Mejore su entregabilidad de emails y haga seguimiento de las acciones en tiempo real\" data-via=\"mailjet\">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=\"//platform.twitter.com/widgets.js\";fjs.parentNode.insertBefore(js,fjs);}}(document,\"script\",\"twitter-wjs\");</script>"
+
+#: mailjet-options.php:62
+msgid "<a href=\"https://www.mailjet.com/signup\">Create your Mailjet account</a> or visit your <a href=\"https://fr.mailjet.com/account/api_keys\">account page</a> to get your API keys."
+msgstr "<a href=\"https://es.mailjet.com/signup\">Cree su cuenta Mailjet</a> o visite su <a href=\"https://fr.mailjet.com/account/api_keys\">cuenta</a> para conseguir sus claves de API."
+
+#: mailjet-options.php:63
+msgid "<a href=\"https://fr.mailjet.com/contacts/lists/add\">Create a new list</a> if you don't have one or need a new one."
+msgstr "<a href=\"https://es.mailjet.com/contacts/lists/add\">Cree una nueva lista</a> si no tiene o necesita una nueva."
+
+#: mailjet-options.php:64
+msgid "<a href=\"widgets.php\">Add</a> the email collection widget to your sidebar or footer."
+msgstr "<a href=\"widgets.php\">Añada</a> el widget de suscripción de emails en su barra lateral o footer."
+
+#: mailjet-options.php:65
+msgid "<a href=\"https://fr.mailjet.com/campaigns/create\">Create a campaign</a> on mailjet.com to send your newsletter."
+msgstr "<a href=\"https://es.mailjet.com/campaigns/create\">Cree una campaña</a> en mailjet.com para enviar su newsletter."
+
+#: mailjet-options.php:70
+msgid "Mailjet Plugin"
+msgstr "Plugin Mailjet"
+
+#: mailjet-options.php:77
+msgid "Enabled"
+msgstr "Activado"
+
+#: mailjet-options.php:77
+msgid "Enable email through <b>Mailjet</b>"
+msgstr "Active email a través de <b>Mailjet</b>"
+
+#: mailjet-options.php:78
+msgid "SSL Enabled"
+msgstr "SSL Activado"
+
+#: mailjet-options.php:78
+msgid "Enable <b>SSL</b> communication with mailjet.com"
+msgstr "Establecer comunicación <b>SSL</b> con mailjet.com"
+
+#: mailjet-options.php:86
+msgid "Port to use for SMTP communication"
+msgstr "Puerto para usar la comunicación SMTP"
+
+#: mailjet-options.php:87
+msgid "Send test email"
+msgstr "Envie un email de prueba"
+
+#: mailjet-options.php:87
+msgid "Send test email now"
+msgstr "Enviar email de prueba ahora"
+
+#: mailjet-options.php:89
+msgid "Recipient of test email"
+msgstr "Destinatario del email de prueba"
+
+#: mailjet-options.php:92
+msgid "<code>From:</code> email address"
+msgstr "<code>De:</code> dirección email"
+
+#: mailjet-options.php:95
+msgid "General Settings"
+msgstr "Configuración general"
+
+#: mailjet-options.php:97
+msgid "Enable or disable the sending of your emails through your Mailjet account"
+msgstr "Activar o desactivar el envío de sus emails a través de su cuenta Mailjet"
+
+#: mailjet-options.php:103
+msgid "API key"
+msgstr "Clave de API"
+
+#: mailjet-options.php:104
+msgid "API secret"
+msgstr "Contraseña de API"
+
+#: mailjet-options.php:107
+msgid "API Settings"
+msgstr "Parámetros de API"
+
+#: mailjet-options.php:109
+#, php-format
+msgid "You can get your API keys from <a href=\"https://www.mailjet.com/account/api_keys\">your mailjet account</a>. Please also make sure the sender address %s is active in <a href=\"https://www.mailjet.com/account/sender\">your account</a>"
+msgstr "Puede conseguir sus claves de API desde <a href=\"https://es.mailjet.com/account/api_keys\">su cuenta mailjet</a>. Por favor, asegurese que la dirección de remitente %s esté activa en <a href=\"https://es.mailjet.com/account/sender\">su cuenta</a>"
+
+#: mailjet-options.php:207
+msgid "Your test mail from Mailjet"
+msgstr "Su email de prueba de Mailjet"
+
+#: mailjet-options.php:208
+#, fuzzy, php-format
+msgid "Your Mailjet configuration is ok!SSL: %s Port: %s"
+msgstr "¡Su configuración de Mailjet está bien! SSL: %s Port: %s"
+
+#: mailjet-options.php:217
+msgid " and your test message was sent."
+msgstr "y su mensaje ha sido enviado."
+
+#: mailjet-options.php:220
+msgid "Your settings have been saved successfully"
+msgstr "Su configuración ha sido guardada"
+
+#: mailjet-options.php:222
+msgid "Your settings have been saved, but your port and SSL settings were changed as follows to ensure delivery"
+msgstr "Sus parametros han sido guardados, pero su puerto y configuración SSL han sido cambiados como indicado más abajo para asegurar la entrega"
+
+#: mailjet-options.php:225
+#, php-format
+msgid "Please contact Mailjet support to sort this out.<br /><br />%d - %s"
+msgstr "Por favor póngase en contacto con el Soporte de Mailjet para resolver este problema.<br /><br />%d - %s"
+
+#: mailjet-options.php:229
+msgid "There is an error with your settings. please correct and try again"
+msgstr "Hay un problema con su configuración. Por favor corríjalo y pruebe de nuevo"
+
+#: views/contacts.php:27
+msgid "Email"
+msgstr "Email"
+
+#: views/contacts.php:28
+#: views/list.php:37
+msgid "ID"
+msgstr "ID"
+
+#: views/contacts.php:30
+msgid "Created on"
+msgstr "Creado el"
+
+#: views/contacts.php:31
+msgid "Last Activity"
+msgstr "Última actividad"
+
+#: views/contacts.php:32
+msgid "Messages sent"
+msgstr "Mensajes enviados"
+
+#: views/contacts.php:33
+msgid "Active"
+msgstr "Activo"
+
+#: views/contacts.php:88
+msgid "Yes"
+msgstr "Sí"
+
+#: views/contacts.php:88
+msgid "No"
+msgstr "No"
+
+#: views/list.php:34
+msgid "Name"
+msgstr "Nombre"
+
+#: views/list.php:36
+msgid "Number of Contacts"
+msgstr "Número de Contactos"
+
+#: views/options-form.php:37
+msgid "Save options"
+msgstr "Guardar opciones"
+
+#~ msgid "Subscribe"
+#~ msgstr "Registrarse"
