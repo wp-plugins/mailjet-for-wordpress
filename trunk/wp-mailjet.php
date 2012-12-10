@@ -195,7 +195,7 @@ function mailjet_subscribe_unsub_user_to_list($subscribe, $user_id)
                 'id' => $list_id,
             );
 
-            $response = $MailjetApi->listsUnsubContact($params);
+            $response = $MailjetApi->listsRemoveContact($params);
         }
     }
 }
@@ -205,7 +205,7 @@ function my_save_extra_profile_fields( $user_id )
 {
     if ( !current_user_can( 'edit_user', $user_id ) )
         return false;
-    $subscribe = filter_var($_POST ['mailjet_subscribe_ok'], FILTER_SANITIZE_NUMBER_INT)
+    $subscribe = filter_var($_POST ['mailjet_subscribe_ok'], FILTER_SANITIZE_NUMBER_INT);
     update_usermeta($user_id, 'mailjet_subscribe_ok', $subscribe);
     mailjet_subscribe_unsub_user_to_list($subscribe, $user_id);
 }
