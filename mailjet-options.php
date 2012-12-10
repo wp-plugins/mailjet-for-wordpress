@@ -74,6 +74,7 @@ class WPMailjet_Options {
 
         $form->addFieldset($generalFieldset);
 
+
         $generalOptions[] = new Options_Form_Option('mailjet_enabled', __('Enabled', 'wp-mailjet'), 'checkbox', get_option('mailjet_enabled'), __('Enable email through <b>Mailjet</b>', 'wp-mailjet'));
         $generalOptions[] = new Options_Form_Option('mailjet_ssl', __('SSL Enabled', 'wp-mailjet'), 'checkbox', get_option('mailjet_ssl'), __('Enable <b>SSL</b> communication with mailjet.com', 'wp-mailjet'));
         $ports = array(
@@ -90,6 +91,24 @@ class WPMailjet_Options {
         $from_email = (get_option('mailjet_from_email') ? get_option('mailjet_from_email') : get_option('admin_email'));
 
         $generalOptions[] = new Options_Form_Option('mailjet_from_email', __('<code>From:</code> email address', 'wp-mailjet'), 'email', $from_email);
+
+        if(get_option('mailjet_password') && get_option('mailjet_username')){
+            $MailjetApi = new Mailjet(get_option('mailjet_username'), get_option('mailjet_password'));
+            $resp = $MailjetApi->listsAll();
+            if($resp->status == 'OK') {
+                $lists = array(
+                    array('value' => '', 'label' => __('Disable autosubscribe')),
+                );
+                foreach($resp->lists as $list) {
+                    $lists[] = array(
+                        'value' => $list->id,
+                        'label' => $list->label,
+                    );
+                }
+            }
+
+            $generalOptions[] = new Options_Form_Option('mailjet_auto_subscribe_list_id', '', 'select', get_option('mailjet_auto_subscribe_list_id'), __('Autosubscribe new users to this list', 'wp-mailjet'), false, $lists);
+        }
 
         $generalFieldset = new Options_Form_Fieldset(
             __('General Settings', 'wp-mailjet'),
@@ -127,6 +146,7 @@ class WPMailjet_Options {
         $fields['mailjet_username'] = strip_tags(filter_var($_POST ['mailjet_username'], FILTER_SANITIZE_STRING));
         $fields['mailjet_password'] = strip_tags(filter_var($_POST ['mailjet_password'], FILTER_SANITIZE_STRING));
         $fields['mailjet_port'] = strip_tags(filter_var($_POST ['mailjet_port'], FILTER_SANITIZE_NUMBER_INT));
+        $fields['mailjet_auto_subscribe_list_id'] = strip_tags(filter_var($_POST ['mailjet_auto_subscribe_list_id'], FILTER_SANITIZE_NUMBER_INT));
 
         $errors = array();
         if ($fields['mailjet_test'] && empty ($fields['mailjet_test_address'])) {
@@ -154,6 +174,7 @@ class WPMailjet_Options {
             update_option('mailjet_password', $fields ['mailjet_password']);
             update_option('mailjet_ssl', $fields ['mailjet_ssl']);
             update_option('mailjet_port', $fields ['mailjet_port']);
+            update_option('mailjet_auto_subscribe_list_id', $fields ['mailjet_auto_subscribe_list_id']);
 
 
 
