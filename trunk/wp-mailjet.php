@@ -89,6 +89,14 @@ function wp_mailjet_register_widgets() {
     register_widget( 'MailjetSubscribeWidget' );
 }
 
+/**
+ * Display settings link on plugins page
+ *
+ * @param array $links
+ * @param string $file
+ * @return array
+ */
+
 function mailjet_settings_link( $links, $file ) {
     if ( $file != plugin_basename( __FILE__ ))
         return $links;
@@ -100,6 +108,31 @@ function mailjet_settings_link( $links, $file ) {
     return $links;
 }
 add_filter( 'plugin_action_links', 'mailjet_settings_link', 10, 2);
+
+/**
+ * Add newly registered user to selected list
+ * @param $userid
+ */
+function on_user_registration($userid) {
+
+    if(get_option('mailjet_password') && get_option('mailjet_username')){
+        $MailjetApi = new Mailjet(get_option('mailjet_username'), get_option('mailjet_password'));
+        if($list_id = get_option('mailjet_auto_subscribe_list_id')){
+            $user = get_userdata( $userid );
+
+            $params = array(
+                'method' => 'POST',
+                'contact' => $user->data->user_email,
+                'id' => $list_id,
+            );
+
+            $response = $MailjetApi->listsAddContact($params);
+
+        }
+    }
+}
+add_action( 'user_register', 'on_user_registration');
+
 
 
 load_plugin_textdomain ('wp-mailjet', FALSE, dirname (plugin_basename(__FILE__)) . '/i18n');
