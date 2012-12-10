@@ -109,16 +109,77 @@ function mailjet_settings_link( $links, $file ) {
 }
 add_filter( 'plugin_action_links', 'mailjet_settings_link', 10, 2);
 
-/**
- * Add newly registered user to selected list
- * @param $userid
- */
-function on_user_registration($userid) {
 
+/**
+ * Add additional custom field
+ */
+
+add_action ( 'show_user_profile', 'my_show_extra_profile_fields' );
+add_action ( 'edit_user_profile', 'my_show_extra_profile_fields' );
+
+function my_show_extra_profile_fields ( $user )
+{
+?>
+    <h3>Extra profile information</h3>
+    <table class="form-table">
+        <tr>
+            <th><label for="mailjet_subscribe_ok"><?php _e('Subscribe')?></label></th>
+            <td>
+                <fieldset><legend class="screen-reader-text"><span><?php _e('Subscribe')?></span></legend>
+                    <label for="admin_bar_front">
+                        <input type="checkbox" name="mailjet_subscribe_ok" id="mailjet_subscribe_ok" value="1" <?php echo  (esc_attr( get_the_author_meta( 'mailjet_subscribe_ok', $user->ID ) ) ? 'checked="checked" ' : ''); ?>class="checkbox" />
+                        <?php _e('Subscribe to our newsletter')?>
+                    </label>
+                </fieldset>
+
+            </td>
+        </tr>
+    </table>
+    <?php
+}
+
+add_action ( 'personal_options_update', 'my_save_extra_profile_fields' );
+add_action ( 'edit_user_profile_update', 'my_save_extra_profile_fields' );
+
+
+/**
+ * Add cutom field to registration form
+ */
+if (get_option('mailjet_auto_subscribe_list_id')){
+    add_action('register_form','show_mailjet_subscribe_field');
+    add_action('user_register', 'register_extra_fields');
+}
+
+
+function show_mailjet_subscribe_field()
+{
+    ?>
+    <p>
+        <label>
+            <input type="checkbox" name="mailjet_subscribe_ok" id="mailjet_subscribe_ok" value="1" <?php echo  (esc_attr( get_the_author_meta( 'mailjet_subscribe_ok', $user->ID ) ) ? 'checked="checked" ' : ''); ?>class="checkbox" />
+            <?php _e('Subscribe to our newsletter')?>
+        </label>
+    </p>
+<?php
+}
+
+function register_extra_fields ( $user_id, $password = "", $meta = array() )
+{
+
+    $subscribe = filter_var($_POST ['mailjet_subscribe_ok'], FILTER_SANITIZE_NUMBER_INT);
+    update_user_meta( $user_id, 'mailjet_subscribe_ok', $subscribe);
+
+    mailjet_subscribe_unsub_user_to_list($subscribe, $user_id);
+
+}
+
+
+function mailjet_subscribe_unsub_user_to_list($subscribe, $user_id)
+{
     if(get_option('mailjet_password') && get_option('mailjet_username')){
+        $user = get_userdata( $user_id );
         $MailjetApi = new Mailjet(get_option('mailjet_username'), get_option('mailjet_password'));
-        if($list_id = get_option('mailjet_auto_subscribe_list_id')){
-            $user = get_userdata( $userid );
+        if($subscribe && $list_id = get_option('mailjet_auto_subscribe_list_id')){
 
             $params = array(
                 'method' => 'POST',
@@ -127,12 +188,26 @@ function on_user_registration($userid) {
             );
 
             $response = $MailjetApi->listsAddContact($params);
+        }elseif(!$subscribe && $list_id = get_option('mailjet_auto_subscribe_list_id')) {
+            $params = array(
+                'method' => 'POST',
+                'contact' => $user->data->user_email,
+                'id' => $list_id,
+            );
 
+            $response = $MailjetApi->listsUnsubContact($params);
         }
     }
 }
-add_action( 'user_register', 'on_user_registration');
 
 
+function my_save_extra_profile_fields( $user_id )
+{
+    if ( !current_user_can( 'edit_user', $user_id ) )
+        return false;
+    $subscribe = filter_var($_POST ['mailjet_subscribe_ok'], FILTER_SANITIZE_NUMBER_INT)
+    update_usermeta($user_id, 'mailjet_subscribe_ok', $subscribe);
+    mailjet_subscribe_unsub_user_to_list($subscribe, $user_id);
+}
 
 load_plugin_textdomain ('wp-mailjet', FALSE, dirname (plugin_basename(__FILE__)) . '/i18n');
