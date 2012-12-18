@@ -74,7 +74,7 @@ Once your Mailjet plugin is installed, click on "Appearance" in the left-side me
 
 == Changelog ==
 
-= 1.2. =
+= 1.2.6 =
 * Bug fix
 
 = 1.2.5 =
