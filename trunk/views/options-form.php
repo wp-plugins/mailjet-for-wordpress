@@ -122,8 +122,10 @@ class Options_Form_Option
                     </legend>
                     <label for="'.$this->getId().'">
                     <select name="'.$this->getId().'" type="'.$this->getType().'" id="'.$this->getId().'">';
-            foreach($this->getOptions() as $option) {
-                $sel .= '<option value="'.$option['value'].'"'.(get_option($this->getId()) == $option['value'] ? ' selected="selected"':'').'>'.$option['label'].'</option>';
+            if($this->getOptions()) {
+                foreach($this->getOptions() as $option) {
+                    $sel .= '<option value="'.$option['value'].'"'.(get_option($this->getId()) == $option['value'] ? ' selected="selected"':'').'>'.$option['label'].'</option>';
+                }
             }
 
             $sel .= '        </select>
