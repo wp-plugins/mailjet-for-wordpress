@@ -1,16 +1,18 @@
 === Mailjet for Wordpress ===
+
 Contributors: mailjet
 Tags: email, marketing, signup, newsletter, widget, smtp, mailjet
 Requires at least: 3.2.1
-Tested up to: 3.4.2
-Stable tag: 1.2.6
+Tested up to: 3.5.1
+Stable tag: 1.2.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-
 The Mailjet plugin allows you to reconfigure the wp_mail() function to use Mailjet SMTP and easily manage your contacts lists with signup widgets.
 
+
 == Description ==
+
 
 Mailjet's official plugin for WordPress will:
 
@@ -41,6 +43,7 @@ Our plugin simply extends the WordPress wp_mail() function, to use Mailjet's SMT
 
 
 == Frequently Asked Questions ==
+
 
 = What is Mailjet? =
 [Mailjet](http://www.mailjet.com) is an all-in-one solution to send, track and deliver both marketing and transactional emails. Its Cloud-Based infrastructure is unique and highly scalable. A proprietary technology optimizes the sending and the deliverability of your messages. 
@@ -73,6 +76,9 @@ Once your Mailjet plugin is installed, click on "Appearance" in the left-side me
 
 
 == Changelog ==
+
+= 1.2.7 =
+* Bug fix on ssl option and widget constructor, code cleaning
 
 = 1.2.6 =
 * Bug fix
