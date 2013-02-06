@@ -35,9 +35,9 @@ class Mailjet_List_Table extends WP_List_Table
 	{
 		return $columns = array(
 			'cb' => '<input type="checkbox" />',
-					'col_mailjet_list_name' => __('Name'),
-					'col_mailjet_list_num_contacts' => __('Number of Contacts'),
-					'col_mailjet_list_id' => __('ID'),
+					'col_mailjet_list_name' => __('Name', 'wp-mailjet'),
+					'col_mailjet_list_num_contacts' => __('Number of Contacts', 'wp-mailjet'),
+					'col_mailjet_list_id' => __('ID', 'wp-mailjet'),
 //					'actions' => '<a href="#">Edit</a>',
 			);
 	}
@@ -53,7 +53,7 @@ class Mailjet_List_Table extends WP_List_Table
 
 	function get_bulk_actions()
 	{
-		$actions = array('delete' => 'Delete');
+		$actions = array('delete' => __('Delete', 'wp-mailjet'));
 
 		return $actions;
 	}
@@ -84,8 +84,8 @@ class Mailjet_List_Table extends WP_List_Table
 	{
 		$screen = get_current_screen();
 
-		$orderby =		!empty($_GET["orderby"]) ? mysql_real_escape_string($_GET["orderby"]) : 'ASC';
-		$order =		!empty($_GET["order"]) ? mysql_real_escape_string($_GET["order"]) : '';
+		$orderby =		!empty($_GET['orderby']) ? mysql_real_escape_string($_GET['orderby']) : 'ASC';
+		$order =		!empty($_GET['order']) ? mysql_real_escape_string($_GET['order']) : '';
 		$api_order =	'id ASC';
 
 		if (!empty($orderby) & !empty($order))
@@ -125,7 +125,7 @@ class Mailjet_List_Table extends WP_List_Table
 		}
 
 		/* Register the pagination */
-		$this->set_pagination_args(array('total_items' => $totalitems, 'total_pages' => $totalpages, 'per_page' => $perpage) );
+		$this->set_pagination_args(array('total_items' => $totalitems, 'total_pages' => $totalpages, 'per_page' => $perpage));
 
 		//The pagination links are automatically built according to those parameters
 
@@ -173,10 +173,13 @@ class Mailjet_List_Table extends WP_List_Table
 		{
 			case 'col_mailjet_list_id':
 				return $item['id'];
+
 			case 'col_mailjet_list_name':
 				return $item['label'];
+
 			case 'col_mailjet_list_num_contacts':
 				return $item['subscribers'];
+
 			default:
 				return print_r($item, true); //Show the whole array for troubleshooting purposes
 		}

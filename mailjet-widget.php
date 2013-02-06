@@ -18,7 +18,7 @@ class MailjetSubscribeWidget extends WP_Widget
 		//No dependency injection possible, so we have to use this:
 		$this->api = new Mailjet(get_option('mailjet_username'), get_option('mailjet_password'));
 
-		$widget_ops = array('classname' => 'MailjetSubscribeWidget', 'description' => __('Allows your visitors to subscribe to one of your lists'));
+		$widget_ops = array('classname' => 'MailjetSubscribeWidget', 'description' => __('Allows your visitors to subscribe to one of your lists', 'wp-mailjet'));
 
 		parent::__construct(false, 'Subscribe to our newsletter', $widget_ops);
 		add_action('wp_ajax_mailjet_subscribe_ajax_hook', array($this, 'mailjet_subscribe_from_widget'));
@@ -53,19 +53,19 @@ class MailjetSubscribeWidget extends WP_Widget
 ?>
 	<p>
 		<label for="<?php echo $this->get_field_id('title'); ?>">
-			<?php echo __('Title:') ?>
+			<?php echo __('Title:', 'wp-mailjet') ?>
 			<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" />
 		</label>
 	</p>
 	<p>
 		<label for="<?php echo $this->get_field_id('button_text'); ?>">
-			<?php echo __('Button text:') ?>
+			<?php echo __('Button text:', 'wp-mailjet') ?>
 			<input class="widefat" id="<?php echo $this->get_field_id('button_text'); ?>" name="<?php echo $this->get_field_name('button_text'); ?>" type="text" value="<?php echo esc_attr($button_text); ?>" />
 		</label>
 	</p>
 	<p>
 		<label for="<?php echo $this->get_field_id('list_id'); ?>">
-			<?php echo __('List:') ?>
+			<?php echo __('List:', 'wp-mailjet') ?>
 			<select class="widefat" id="<?php echo $this->get_field_id('list_id'); ?>" name="<?php echo $this->get_field_name('list_id'); ?>">
 				<?php foreach ($this->getLists() as $list) { ?>
 				<option value="<?php echo $list->id?>"<?php echo ($list->id == esc_attr($list_id) ? ' selected="selected"' : '') ?>><?php echo $list->label?></option>
@@ -101,9 +101,9 @@ class MailjetSubscribeWidget extends WP_Widget
 		$list =		$this->api->listsStatistics(array('id' => $list_id))->statistics;
 
 		if ($response)
-			echo sprintf(__("<p class=\"success\">Thanks for subscribing to <b>%s</b>, %s</p>"), $list->label, $email);
+			echo sprintf(__("<p class=\"success\">Thanks for subscribing to <b>%s</b>, %s</p>", 'wp-mailjet'), $list->label, $email);
 		else
-			echo sprintf(__("<p class=\"error\">Sorry %s we couldn't subscribe you to <b>%s</b> at this time</p>"), $email, $list->label);
+			echo sprintf(__("<p class=\"error\">Sorry %s we couldn't subscribe you to <b>%s</b> at this time</p>", 'wp-mailjet'), $email, $list->label);
 
 		die();
 	}

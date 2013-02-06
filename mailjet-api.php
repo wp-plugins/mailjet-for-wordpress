@@ -37,7 +37,7 @@ class Mailjet
 		$this->apiUrl = (($this->secure) ? 'https' : 'http') . '://api.mailjet.com/' . $this->version . '';
 	}
 
-	public function __call($method,$args)
+	public function __call($method, $args)
 	{
 		// params
 		$params = (sizeof($args) > 0) ? $args[0] : array();
@@ -50,7 +50,7 @@ class Mailjet
 			unset($params["method"]);
 
 		// Make request
-		$result = $this->sendRequest($method,$params,$request);
+		$result = $this->sendRequest($method, $params, $request);
 
 		// Return result
 		$return = ($result === true) ? $this->_response : false;
@@ -86,6 +86,9 @@ class Mailjet
 
 		// Build request URL
 		$url = $this->requestUrlBuilder($method, $params, $request);
+
+		if (!in_array('curl', get_loaded_extensions()))
+			die('Error: You must have cURL extension enabled !');
 
 		// Set up and execute the curl process
 		$curl_handle = curl_init();
