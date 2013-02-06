@@ -24,12 +24,12 @@ class Mailjet_Contacts_Table extends WP_List_Table
 	{
 		return $columns= array(
 			'cb' =>								'<input type="checkbox" />',
-			'col_mailjet_contact_email' =>		__('Email'),
-			'col_mailjet_contact_id' =>			__('ID'),
-			'col_mailjet_contact_created_at' => __('Created on'),
-			'col_mailjet_contact_last_activity' => __('Last Activity'),
-			'col_mailjet_contact_sent' =>		__('Messages sent'),
-			'col_mailjet_contact_active' =>		__('Active'),
+			'col_mailjet_contact_email' =>		__('Email', 'wp-mailjet'),
+			'col_mailjet_contact_id' =>			__('ID', 'wp-mailjet'),
+			'col_mailjet_contact_created_at' => __('Created on', 'wp-mailjet'),
+			'col_mailjet_contact_last_activity' => __('Last Activity', 'wp-mailjet'),
+			'col_mailjet_contact_sent' =>		__('Messages sent', 'wp-mailjet'),
+			'col_mailjet_contact_active' =>		__('Active', 'wp-mailjet'),
 //'actions' => '<a href="#">Edit</a>',
 		);
 	}
@@ -91,7 +91,7 @@ class Mailjet_Contacts_Table extends WP_List_Table
 				return $item['sent'];
 
 			case 'col_mailjet_contact_active':
-				return ($item['active'] ? __('Yes') : __('No'));
+				return ($item['active'] ? __('Yes', 'wp-mailjet') : __('No', 'wp-mailjet'));
 
 			default:
 				return print_r($item, true); //Show the whole array for troubleshooting purposes

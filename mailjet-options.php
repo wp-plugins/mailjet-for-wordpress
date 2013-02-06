@@ -24,16 +24,16 @@ class WPMailjet_Options
 	public function display_menu()
 	{
 		add_menu_page(
-			'Manage your mailjet lists and settings',
+			__('Manage your mailjet lists and settings', 'wp-mailjet'),
 			'Mailjet',
 			'manage_options',
 			'wp_mailjet_options_top_menu',
 			array($this, 'show_settings_menu'),
-			plugin_dir_url( __FILE__ ).'/images/mj_logo_small.png',
+			plugin_dir_url( __FILE__ ) . '/images/mj_logo_small.png',
 			101);
 
 		if (function_exists('add_submenu_page'))
-			add_submenu_page('wp_mailjet_options_top_menu', 'Change your mailjet settings', 'Settings', 'manage_options', 'wp_mailjet_options_top_menu', array($this, 'show_settings_menu'));
+			add_submenu_page('wp_mailjet_options_top_menu', __('Change your mailjet settings', 'wp-mailjet'), __('Settings', 'wp-mailjet'), 'manage_options', 'wp_mailjet_options_top_menu', array($this, 'show_settings_menu'));
 	}
 
 	public function show_settings_menu()
@@ -42,15 +42,15 @@ class WPMailjet_Options
 			$this->save_settings();
 
 		echo '<div class="wrap"><div class="icon32"><img src="' . plugin_dir_url(__FILE__) . '/images/mj_logo_med.png" /></div><h2>';
-		echo __('Mailjet Settings','wp-mailjet');
+		echo __('Mailjet Settings', 'wp-mailjet');
 		echo'</h2>';
 		echo '<div class="postbox-container updated" style="width:25%;float:right">
-		<h3>' . __('Share the love!') . '</h3>
+		<h3>' . __('Share the love!', 'wp-mailjet') . '</h3>
 		<div style="margin-bottom:10px">
-		' . __('<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FMailjet&amp;send=false&amp;layout=button_count&amp;width=150&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21&amp;appId=352489811497917" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:150px; height:21px;" allowTransparency="true"></iframe>').'
+		<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FMailjet&amp;send=false&amp;layout=button_count&amp;width=150&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21&amp;appId=352489811497917" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:150px; height:21px;" allowTransparency="true"></iframe>
 		</div>
 		<div style="margin-bottom:10px">
-		' . __('<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.mailjet.com" data-text="Improve your email deliverability and monitor action in real time." data-via="mailjet">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>') . '
+		<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.mailjet.com" data-text="' . __('Improve your email deliverability and monitor action in real time.', 'wp-mailjet') . '" data-via="mailjet">' . __('Tweet', 'wp-mailjet') . '</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 		</div>
 		</div>
 		<div style="width:70%;float:left;">';
@@ -58,11 +58,10 @@ class WPMailjet_Options
 		$form = new Mailjet_Options_Form('admin.php?page=wp_mailjet_options_top_menu&action=save_options');
 
 		$desc = '<ol>';
-		$desc .= '<li>' . __('<a href="https://www.mailjet.com/signup">Create your Mailjet account</a> or visit your <a href="https://fr.mailjet.com/account/api_keys">account page</a> to get your API keys.','wp-mailjet').'</li>';
+		$desc .= '<li>' . __('<a href="https://www.mailjet.com/signup">Create your Mailjet account</a> or visit your <a href="https://fr.mailjet.com/account/api_keys">account page</a> to get your API keys.', 'wp-mailjet').'</li>';
 		$desc .= '<li>' . __('<a href="https://fr.mailjet.com/contacts/lists/add">Create a new list</a> if you don\'t have one or need a new one.', 'wp-mailjet') . '</li>';
 		$desc .= '<li>' . __('<a href="widgets.php">Add</a> the email collection widget to your sidebar or footer.', 'wp-mailjet') . '</li>';
 		$desc .= '<li>' . __('<a href="https://fr.mailjet.com/campaigns/create">Create a campaign</a> on mailjet.com to send your newsletter.', 'wp-mailjet') . '</li>';
-
 		$desc .= '</ol>';
 
 		$generalFieldset = new Options_Form_Fieldset(
@@ -73,9 +72,9 @@ class WPMailjet_Options
 
 		$form->addFieldset($generalFieldset);
 
-		$generalOptions[] = new Options_Form_Option('mailjet_enabled', __('Enabled', 'wp-mailjet'), 'checkbox', get_option('mailjet_enabled'), __('Enable email through <b>Mailjet</b>', 'wp-mailjet'));
+		$generalOptions[] = new Options_Form_Option('mailjet_enabled', ' ' . __('Enabled', 'wp-mailjet'), 'checkbox', get_option('mailjet_enabled'), __('Enable email through <b>Mailjet</b>', 'wp-mailjet'));
 
-		$generalOptions[] = new Options_Form_Option('mailjet_ssl', __('SSL Enabled', 'wp-mailjet'), 'checkbox', get_option('mailjet_ssl'), __('Enable <b>SSL</b> communication with mailjet.com', 'wp-mailjet'));
+		$generalOptions[] = new Options_Form_Option('mailjet_ssl', ' ' . __('SSL Enabled', 'wp-mailjet'), 'checkbox', get_option('mailjet_ssl'), __('Enable <b>SSL</b> communication with mailjet.com', 'wp-mailjet'));
 
 		$ports = array(
 			array('value' => 25,	'label' => 25),
@@ -87,7 +86,7 @@ class WPMailjet_Options
 
 		$generalOptions[] = new Options_Form_Option('mailjet_port', '', 'select', get_option('mailjet_port'), __('Port to use for SMTP communication', 'wp-mailjet'), false, $ports);
 
-		$generalOptions[] = new Options_Form_Option('mailjet_test', __('Send test email', 'wp-mailjet'), 'checkbox',  get_option('mailjet_test'), __('Send test email now', 'wp-mailjet'));
+		$generalOptions[] = new Options_Form_Option('mailjet_test', ' ' . __('Send test email', 'wp-mailjet'), 'checkbox',  get_option('mailjet_test'), __('Send test email now', 'wp-mailjet'));
 
 		$test_email = (get_option('mailjet_test_address') ? get_option('mailjet_test_address') : get_option('admin_email'));
 
@@ -101,9 +100,10 @@ class WPMailjet_Options
 		{
 			$MailjetApi = new Mailjet(get_option('mailjet_username'), get_option('mailjet_password'));
 			$resp = $MailjetApi->listsAll();
+
 			if ($resp->status == 'OK')
 			{
-				$lists = array(array('value' => '', 'label' => __('Disable autosubscribe')));
+				$lists = array(array('value' => '', 'label' => __('Disable autosubscribe', 'wp-mailjet')));
 
 				foreach ($resp->lists as $list)
 				{

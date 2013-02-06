@@ -4,7 +4,7 @@ Contributors: mailjet
 Tags: email, marketing, signup, newsletter, widget, smtp, mailjet
 Requires at least: 3.2.1
 Tested up to: 3.5.1
-Stable tag: 1.2.7
+Stable tag: 1.2.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,6 +41,8 @@ Our plugin simply extends the WordPress wp_mail() function, to use Mailjet's SMT
 2. Go to Extensions > Add and send `mailjet-for-wordpress.zip`.
 3. Activate the Mailjet extension through the 'Plugins' menu in WordPress.
 
+You must have cURL extension enabled.
+
 
 == Frequently Asked Questions ==
 
@@ -76,6 +78,9 @@ Once your Mailjet plugin is installed, click on "Appearance" in the left-side me
 
 
 == Changelog ==
+
+= 1.2.8 =
+* Added cURL warning and missing translations
 
 = 1.2.7 =
 * Bug fix on ssl option and widget constructor, code cleaning

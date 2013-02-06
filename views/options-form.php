@@ -15,14 +15,14 @@ class Mailjet_Options_Form
 
 	public function display()
 	{
-		echo '<form method="post" action="'.$this->action.'">';
+		echo '<form method="post" action="' . $this->action . '">';
 
 		foreach ($this->fieldsets as $fieldset)
 		{
-			echo '<h3>'.$fieldset->getTitle().'</h3>';
+			echo '<h3>' . $fieldset->getTitle() . '</h3>';
 
 			if ($fieldset->getDescription())
-				echo '<p>'.$fieldset->getDescription().'</p>';
+				echo '<p>' . $fieldset->getDescription() . '</p>';
 
 			$options = $fieldset->getOptions();
 
