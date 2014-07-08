@@ -14,16 +14,21 @@ The Mailjet plugin allows you to reconfigure the wp_mail() function to use Mailj
 == Description ==
 
 
+The Mailjet for WordPress plug-in has been updated for compatibility with all Mailjet v3 accounts as well as the latest version of WordPress. We strongly suggest that Mailjet users create a Mailjet v3 account to take advantage of this latest version.  However, if you are still running a Mailjet v1 account, you can find the v1 compatible Mailjet for WordPress plug-in below:
+https://github.com/mailjet/wordpress-mailjet-plugin
+Please don’t hesitate to contact Mailjet support at https://www.mailjet.com/support/ticket with any questions.
+
+
 Mailjet's official plugin for WordPress will:
 
-* Reconfigure your wp_mail() function to use Mailjet's SMTP instead of mail() 
-* Create an "Options" page to manage your email settings; 
+* Reconfigure your wp_mail() function to use Mailjet's SMTP instead of mail()
+* Create an "Options" page to manage your email settings;
 * Display a dashboard for your contact lists management;
 * Provide a signup widget, so your visitors can sign up to your Mailjet mailing lists.
 
 
 **Secure & real-time SMTP relay for all your emails**
-- A lot of features and plugins from your WordPress site send email notifications. All these messages are very important for your users, as well as for your business. Therefore, you want to track success and ensure a successful delivery. 
+- A lot of features and plugins from your WordPress site send email notifications. All these messages are very important for your users, as well as for your business. Therefore, you want to track success and ensure a successful delivery.
 
 Our plugin simply extends the WordPress wp_mail() function, to use Mailjet's SMTP instead. This will improve your deliverability. You will also get live and in-depth statistics to track and optimize in real time. Making the choice of Mailjet is the right solution for your [transactional emails](http://www.mailjet.com/features/transactional-email.html) , [bulk emails](http://www.mailjet.com/features/bulk-email.html) and [newsletter emails](https://www.mailjet.com/features/newsletter-service.html).
 
@@ -48,22 +53,22 @@ You must have cURL extension enabled.
 
 
 = What is Mailjet? =
-[Mailjet](http://www.mailjet.com) is an all-in-one solution to send, track and deliver both marketing and transactional emails. Its Cloud-Based infrastructure is unique and highly scalable. A proprietary technology optimizes the sending and the deliverability of your messages. 
+[Mailjet](http://www.mailjet.com) is an all-in-one solution to send, track and deliver both marketing and transactional emails. Its Cloud-Based infrastructure is unique and highly scalable. A proprietary technology optimizes the sending and the deliverability of your messages.
 
 = Why use Mailjet as an SMTP relay for Wordpress? =
-1 in 4 legitimate email gets lost or ends up a the spam folder. By Sending your email through Mailjet's SMTP relay, you will avoid this and make sure that your recipients receive your messages in real time, straight into their inbox. You will also be able to track the delivery (opens, bounces, etc.) as well as the activity of your emails (clicks, opens, etc.). On top of that, tools such as our Newsletter editor will let you create and send a beautiful marketing campaign in only a few minutes. All this added value comes with no engagement and very low prices.  
+1 in 4 legitimate email gets lost or ends up a the spam folder. By Sending your email through Mailjet's SMTP relay, you will avoid this and make sure that your recipients receive your messages in real time, straight into their inbox. You will also be able to track the delivery (opens, bounces, etc.) as well as the activity of your emails (clicks, opens, etc.). On top of that, tools such as our Newsletter editor will let you create and send a beautiful marketing campaign in only a few minutes. All this added value comes with no engagement and very low prices.
 
 = Do I need a Mailjet Account? =
-Yes. You can create one for free: it's easy and it only takes a few minutes. 
+Yes. You can create one for free: it's easy and it only takes a few minutes.
 
 = How to get started with this plugin? =
 Once you have a Mailjet account, an installation Wizard will guide you through. You want to use Mailjet as an SMTP relay, so you will need to change these parameters in your Wordpress email configuration: username and password. These credentials are provided in your Account section, when you are logged in on Mailjet's website: it's the "API Keys".
 
 = How do I get synchronize my lists? =
-Synchronization is automatic, that's the beauty of this plugin! It doesn't matter whether your lists were uploaded on your Wordpress interface or on your Mailjet account: they will always remain up-to-date on both sides. 
+Synchronization is automatic, that's the beauty of this plugin! It doesn't matter whether your lists were uploaded on your Wordpress interface or on your Mailjet account: they will always remain up-to-date on both sides.
 
 = In which languages is this plugin available? =
-This plugin is currently available in English, French, Spanish and German. Support is also provided in each of these languages. 
+This plugin is currently available in English, French, Spanish and German. Support is also provided in each of these languages.
 
 = How do I create a signup form? =
 Once your Mailjet plugin is installed, click on "Appearance" in the left-side menu  and then choose the "Widgets" section. Just drag  the "Subscribe to Our Newsletter" widget and drop it where you want it to appear (i.e. the sidebar). For more precisions, please visit the official help page [Adding Widgets](http://en.support.wordpress.com/widgets/#adding-widgets).
@@ -101,11 +106,11 @@ Once your Mailjet plugin is installed, click on "Appearance" in the left-side me
 * Added campaigns and statistics management
 
 = 1.1.5 =
-* Added: HTTP Port Configuration 
+* Added: HTTP Port Configuration
 
 = 1.1.3 =
-* Bugfix: Correct ajax request for WordPress 3.2.1 
-* Bugfix: Correct widget creation 
+* Bugfix: Correct ajax request for WordPress 3.2.1
+* Bugfix: Correct widget creation
 
 = 1.1.1 =
 * added readme and translations files
