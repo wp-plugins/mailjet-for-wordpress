@@ -14,8 +14,12 @@ The Mailjet plugin allows you to reconfigure the wp_mail() function to use Mailj
 == Description ==
 
 
-The Mailjet for WordPress plug-in has been updated for compatibility with all Mailjet v3 accounts as well as the latest version of WordPress. We strongly suggest that Mailjet users create a Mailjet v3 account to take advantage of this latest version.  However, if you are still running a Mailjet v1 account, you can find the v1 compatible Mailjet for WordPress plug-in below:
+The Mailjet for WordPress plug-in has been updated for compatibility with all Mailjet v3 accounts as well as the latest version of WordPress.
+We strongly suggest that Mailjet users create a Mailjet v3 account to take advantage of this latest version.
+
+However, if you are still running a Mailjet v1 account, you can find the v1 compatible Mailjet for WordPress plug-in below:
 https://github.com/mailjet/wordpress-mailjet-plugin
+
 Please don’t hesitate to contact Mailjet support at https://www.mailjet.com/support/ticket with any questions.
 
 
