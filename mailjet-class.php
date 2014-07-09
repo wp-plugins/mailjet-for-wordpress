@@ -68,49 +68,31 @@ class WPMailjet
 
 	private function _get_auth_token()
 	{
-		if ($op = get_option('mailjet_token' . $_SERVER['REMOTE_ADDR']))
-		{
-			$op = json_decode($op);
-
-			if ($op->timestamp > time() - 3600)
-				return $op->token;
-		}
-
-		if (!defined('WPLANG'))
-			$locale = 'en';
-		else
-		{
-			$locale = substr(WPLANG, 0, 2);
-			if (!in_array($locale, array('en', 'fr', 'es', 'de')))
-				$locale = 'en';
-		}
-
-		$body = array(
-			'allowed_access[0]' => 'stats',
-			'allowed_access[1]' => 'contacts',
-			'allowed_access[2]' => 'campaigns',
-			'lang' => $locale,
-			'default_page'=> 'campaigns',
-			'type' => 'page',
-			'apikey' => get_option('mailjet_username'),
-		);
-
+		$MailjetApiObject = new Mailjet(get_option('mailjet_username'), get_option('mailjet_password'));
+		
 		$params = array(
-					'headers' => array( 'Authorization' => 'Basic ' . base64_encode(get_option('mailjet_username') . ':' . get_option('mailjet_password'))),
-					'body' => $body,
+			'method' => 'GET',
+			'APIKey' => get_option('mailjet_username'), // Use any API Key from your Sub-accounts
 		);
-
-		$res = wp_remote_post('http://api.mailjet.com/0.1/apiKeyauthenticate?output=json', $params);
-
-		if (is_array($res))
-		{
-			$resp = json_decode($res['body']);
-			if ($resp->status == 'OK')
-			{
-				update_option('mailjet_token' . $_SERVER['REMOTE_ADDR'], json_encode(array('token' => $resp->token, 'timestamp' => time())));
-				return $resp->token;
-			}
-		}
+		 
+		$api_key_response = $MailjetApiObject->apikey($params);
+		$result = $api_key_response->Data[0]->ID;
+		 
+		$params = array(
+			'AllowedAccess' =>  'campaigns,contacts,reports,stats,preferences,pricing,account',
+			'method' => 'POST',
+			'APIKeyID' => $result,
+			'TokenType' => 'url',
+			'CatchedIp'  => $_SERVER['REMOTE_ADDR'],
+			'log_once' => true
+		);
+		 
+		$response = $MailjetApiObject->apitoken($params);
+	 
+		if(isset($response->Data) && count($response->Data) > 0)
+			return $response->Data[0]->Token;
+		
+		return false;
 	}
 
 	public function show_campaigns_menu()
@@ -118,7 +100,7 @@ class WPMailjet
 		echo '<div class="wrap"><div class="icon32"><img src="' . plugin_dir_url(__FILE__) . '/images/mj_logo_med.png' . '" /></div><h2>';
 		echo __('Campaigns', 'wp-mailjet');
 		echo'</h2></div>';
-		echo '<iframe width="980px" height="1200" src="https://www.mailjet.com/campaigns?t=' . $this->_get_auth_token() . '"></iframe>';
+		echo '<iframe width="980px" height="1200" src="https://app.mailjet.com/campaigns?t=' . $this->_get_auth_token() . '&show_menu=none"></iframe>';
 	}
 
 	public function show_stats_menu()
@@ -126,241 +108,14 @@ class WPMailjet
 		echo '<div class="wrap"><div class="icon32"><img src="' . plugin_dir_url(__FILE__) . '/images/mj_logo_med.png' . '" /></div><h2>';
 		echo __('Statistics', 'wp-mailjet');
 		echo'</h2></div>';
-		echo '<iframe width="980px" height="1200" src="https://www.mailjet.com/stats?t=' . $this->_get_auth_token() . '"></iframe>';
+		echo '<iframe width="980px" height="1200" src="https://app.mailjet.com/stats?t=' . $this->_get_auth_token() . '&show_menu=none"></iframe>';
 	}
 
 	public function show_contacts_menu()
 	{
-		$action = (isset($_REQUEST['action']) ? $_REQUEST['action'] : null);
-
-		switch($action)
-		{
-			case 'edit':
-				$this->show_list_contacts($_REQUEST['list']);
-			break;
-
-			case 'delete':
-				if (isset($_REQUEST['list']))
-					$this->delete_list($_REQUEST['list']);
-				$this->show_all_lists();
-			break;
-
-			case 'delete_contact':
-				$this->delete_contact($_REQUEST['contact'], $_REQUEST['list']);
-				$this->show_list_contacts($_REQUEST['list']);
-			break;
-
-			case 'add_contact':
-				$this->show_add_contacts($_REQUEST['label'], $_REQUEST['list']);
-			break;
-
-			case 'add_list':
-				$this->show_add_list();
-			break;
-
-			case 'save_contacts':
-				$this->save_contacts();
-				$this->show_list_contacts($_REQUEST['list']);
-			break;
-
-			case 'delete_contacts':
-				$this->show_list_contacts($_REQUEST['list']);
-			break;
-
-			case 'save_list':
-				$this->save_list();
-			break;
-
-			case 'mass_action':
-				$this->mass_action();
-			break;
-
-			default:
-				$this->show_all_lists();
-		}
-	}
-
-	protected function save_contacts()
-	{
-		if (isset($_POST) && isset($_POST['contact_email']))
-		{
-			$contacts = join(',', $_POST['contact_email']);
-
-			$params = array(
-				'method' => 'POST',
-				'contacts' => $contacts,
-				'id' => $_POST['list_id']
-			);
-			$response = $this->api->listsAddManyContacts($params);
-		}
-	}
-
-	protected function save_list()
-	{
-		if (isset($_POST) && isset($_POST['name']) && isset($_POST['title']))
-		{
-			if(!preg_match('/^[a-z0-9]+$/i', $_POST['name']))
-			{
-				WP_Mailjet_Utils::custom_notice('error', __('Only alphanumeric characters may be used for the list name', 'wp-mailjet'));
-				$this->show_add_list($_POST['name'], $_POST['title']);
-			}
-			else
-			{
-				$params = array(
-					'method' => 'POST',
-					'label' => $_POST['title'],
-					'name' => $_POST['name']);
-				$response = $this->api->listsCreate($params);
-
-				$this->show_all_lists();
-			}
-		}
-		else
-			$this->show_add_list();
-	}
-
-	protected function show_add_contacts($label, $list_id)
-	{
-		wp_register_script('mailjet_js', plugins_url('/js/mailjet.js', __FILE__), array('jquery'));
-		wp_enqueue_script( 'mailjet_js');
-
-		echo '<div class="wrap"><div class="icon32"><img src="' . plugin_dir_url(__FILE__) . '/images/mj_logo_med.png" /></div><h2>';
-		echo __('Add contact to list', 'wp-mailjet') . ' ' . $label;
+		echo '<div class="wrap"><div class="icon32"><img src="' . plugin_dir_url(__FILE__) . '/images/mj_logo_med.png' . '" /></div><h2>';
+		echo __('Contacts', 'wp-mailjet');
 		echo'</h2></div>';
-		echo '<form method="post" action="admin.php?page=wp_mailjet_options_contacts_menu&action=save_contacts&list=' . $list_id . '&label=' . $label . '">
-		<div class="contactAdd" id="firstContactAdded">
-			<label class="hide-if-no-js" style="" id="title-prompt-text">Contact email
-				<input type="email" name="contact_email[]" size="30" tabindex="1" value="" autocomplete="off">
-			</label>
-		</div>
-		<a id="addContact" href="#">' . __('More', 'wp-mailjet') . '</a>';
-
-		submit_button('Save contacts');
-
-		echo'<input type="hidden" name="list_id" value="' . $list_id . '" /></form>';
-	}
-
-	protected function show_add_list($name = '', $title = '')
-	{
-		echo '<div class="wrap"><div class="icon32"><img src="' . plugin_dir_url(__FILE__) . '/images/mj_logo_med.png" /></div><h2>';
-		echo __('Create new list', 'wp-mailjet');
-		echo'</h2></div>';
-		echo '<form method="post" action="admin.php?page=wp_mailjet_options_contacts_menu&action=save_list">';
-
-		echo '
-		<table class="form-table">
-		<tbody>
-			<tr valign="top">
-				<th scope="row" class="listAdd">
-					<label for="list-title">' . __('List title', 'wp-mailjet') . '</label>
-				</th>
-				<td>
-					<input type="text" name="title" id="list-title" size="30" tabindex="1" value="' . $title . '" autocomplete="off" required="required">
-				</td>
-			</tr>
-			<tr>
-				<th scope="row" class="listAdd">
-					<label style="" for="list-name" id="name-prompt-text">' . __('List name (List name used as name@lists.mailjet.com)', 'wp-mailjet') . '</label>
-				</th>
-				<td>
-					<input type="text" name="name" size="30" tabindex="1" value="' . $name . '" id="list-name" autocomplete="off" required="required">
-				</td>
-			</tr>
-		</tbody>
-		</table>';
-
-		submit_button(__('Create list', 'wp-mailjet'));
-
-		echo'</form>';
-	}
-
-	protected function delete_contact($id, $list_id)
-	{
-		$params = array(
-			'id' => $list_id,
-			'contact' => $id,
-			'method' => 'POST',
-		);
-
-		$response = $this->api->listsRemovecontact($params);
-
-		if ($response && $response->status)
-		{
-			add_action( 'admin_notices', array('WP_Mailjet_Utils', 'custom_notice'), 10, 2 );
-			do_action('admin_notices', 'updated', __('Your contact was successfully deleted.', 'wp-mailjet'));
-		}
-		else
-		{
-			add_action( 'admin_notices', array($this, 'custom_notice'), 10, 2 );
-			do_action('admin_notices', 'error', __('Your contact could not be deleted.', 'wp-mailjet'));
-		}
-	}
-
-	protected function delete_list($id)
-	{
-		$params = array('id' => $id, 'method' => 'POST');
-
-		$response = $this->api->listsDelete($params);
-		if ($response && $response->status)
-		{
-			add_action('admin_notices', array('WP_Mailjet_Utils', 'custom_notice'), 10, 2);
-			do_action('admin_notices', 'updated', sprintf(__('Your list <b>%s</b> was successfully deleted.', 'wp-mailjet'), $_REQUEST['label']));
-		}
-		else
-		{
-			add_action('admin_notices', array('WP_Mailjet_Utils', 'custom_notice'), 10, 2);
-			do_action('admin_notices', 'error', sprintf(__('Your list <b>%s</b> could not be deleted.', 'wp-mailjet'), $_REQUEST['label']));
-		}
-	}
-
-	protected function show_all_lists()
-	{
-		wp_register_script('mailjet_js', plugins_url('/js/mailjet.js', __FILE__), array('jquery'));
-		wp_enqueue_script( 'mailjet_js');
-		echo '<div class="wrap"><div class="icon32"><img src="' . plugin_dir_url(__FILE__) . '/images/mj_logo_med.png" /></div><h2>';
-		echo __('Mailjet Lists', 'wp-mailjet');
-		echo' <a href="admin.php?page=wp_mailjet_options_contacts_menu&action=add_list" class="add-new-h2">' . __('Add new', 'wp-mailjet') . '</a>';
-		echo'</h2>
-		<form method="post" action="admin.php?page=wp_mailjet_options_contacts_menu&action=delete">';
-
-		$wp_list_table = new Mailjet_List_Table($this->api);
-
-		$wp_list_table->prepare_items();
-
-		$wp_list_table->display();
-		echo '</form></div>';
-	}
-
-	protected function show_all_contacts()
-	{
-		echo '<div class="wrap"><div class="icon32"><img src="' . plugin_dir_url(__FILE__) . '/images/mj_logo_med.png" /></div><h2>';
-		echo __('Mailjet Contacts', 'wp-mailjet');
-		echo'</h2>';
-
-		$wp_list_table = new Mailjet_All_Contacts_Table($this->api);
-
-		$wp_list_table->prepare_items();
-		$wp_list_table->display();
-
-		echo '</div>';
-	}
-
-	protected function show_list_contacts($list_id)
-	{
-		wp_register_script('mailjet_js', plugins_url('/js/mailjet.js', __FILE__), array('jquery'));
-		wp_enqueue_script('mailjet_js');
-
-		$label = (isset($_REQUEST['label']) ? $_REQUEST['label'] : 'list ' . $list_id);
-		echo '<div class="wrap"><div class="icon32"><img src="' . plugin_dir_url(__FILE__) . '/images/mj_logo_med.png" /></div><h2>';
-		echo __('Edit contacts for', 'wp-mailjet') . ' ' . $label;
-		echo' <a href="admin.php?page=wp_mailjet_options_contacts_menu&action=add_contact&list=' . $list_id . '&label=' . $label . '" class="add-new-h2">' . __('Add new', 'wp-mailjet') . '</a>
-		</h2>
-		<form method="post" action="admin.php?page=wp_mailjet_options_contacts_menu&list=' . $list_id . '&label=' . $label . '">';
-
-		$wp_list_table = new Mailjet_Contacts_Table($this->api, $list_id);
-
-		$wp_list_table->prepare_items();
-		$wp_list_table->display();
-		echo '</form></div>';
+		echo '<iframe width="980px" height="1200" src="https://app.mailjet.com/contacts/lists?t=' . $this->_get_auth_token() . '&show_menu=none"></iframe>';
 	}
 }
