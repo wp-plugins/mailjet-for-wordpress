@@ -4,7 +4,7 @@ Contributors: mailjet
 Tags: email, marketing, signup, newsletter, widget, smtp, mailjet
 Requires at least: 3.2.1
 Tested up to: 3.5.1
-Stable tag: 1.3.0
+Stable Tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -77,7 +77,6 @@ Once your Mailjet plugin is installed, click on "Appearance" in the left-side me
 2. Manage your lists and contacts in no time!
 3. Create and send beautiful email campaigns
 4. View detailed statistics about your account
-
 
 == Changelog ==
 
