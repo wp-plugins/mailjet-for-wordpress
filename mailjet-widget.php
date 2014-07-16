@@ -23,12 +23,6 @@ class MailjetSubscribeWidget extends WP_Widget
 		parent::__construct(false, 'Subscribe to our newsletter', $widget_ops);
 		add_action('wp_ajax_mailjet_subscribe_ajax_hook', array($this, 'mailjet_subscribe_from_widget'));
 		add_action('wp_ajax_nopriv_mailjet_subscribe_ajax_hook', array($this, 'mailjet_subscribe_from_widget'));
-
-		wp_enqueue_script('ajax-example', plugin_dir_url( __FILE__ ) . 'js/ajax.js', array( 'jquery' ));
-		wp_localize_script('ajax-example', 'WPMailjet', array(
-			'ajaxurl' => admin_url('admin-ajax.php'),
-			'nonce' => wp_create_nonce('ajax-example-nonce')
-		));
 	}
 
 	function getLists()
@@ -110,6 +104,18 @@ class MailjetSubscribeWidget extends WP_Widget
 
 	function widget($args, $instance)
 	{
+		static $is_script_enqueued = false;
+		
+		if(!$is_script_enqueued)
+		{
+			wp_enqueue_script('ajax-example', plugin_dir_url( __FILE__ ) . 'js/ajax.js', array( 'jquery' ), false, true);
+			wp_localize_script('ajax-example', 'WPMailjet', array(
+				'ajaxurl' => admin_url('admin-ajax.php'),
+				'nonce' => wp_create_nonce('ajax-example-nonce')
+			));
+			$is_script_enqueued = true;
+		}
+		
 		extract($args, EXTR_SKIP);
 
 		echo $before_widget;
