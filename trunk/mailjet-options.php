@@ -29,8 +29,7 @@ class WPMailjet_Options
 			'manage_options',
 			'wp_mailjet_options_top_menu',
 			array($this, 'show_settings_menu'),
-			plugin_dir_url( __FILE__ ) . '/images/mj_logo_small.png',
-			101);
+			plugin_dir_url( __FILE__ ) . '/images/mj_logo_small.png');
 
 		if (function_exists('add_submenu_page'))
 			add_submenu_page('wp_mailjet_options_top_menu', __('Change your mailjet settings', 'wp-mailjet'), __('Settings', 'wp-mailjet'), 'manage_options', 'wp_mailjet_options_top_menu', array($this, 'show_settings_menu'));
@@ -58,11 +57,10 @@ class WPMailjet_Options
 		$form = new Mailjet_Options_Form('admin.php?page=wp_mailjet_options_top_menu&action=save_options');
 
 		$desc = '<ol>';
-		$desc .= '<li>' . __('<a target="_blank" href="https://www.mailjet.com/signup">Create your Mailjet account</a> if you don\'t have any.', 'wp-mailjet').'</li>';
-		$desc .= '<li>' . __('Log in with your account through the login form below or visit your <a target="_blank" href="https://www.mailjet.com/account/api_keys">account page</a> to get your API keys and set up them below.', 'wp-mailjet') . '</li>';	
-		$desc .= '<li>' . __('<a href="admin.php?page=wp_mailjet_options_contacts_menu">Create a new list</a> if you don\'t have one or need a new one.', 'wp-mailjet') . '</li>';	
+		$desc .= '<li>' . __('<a href="https://www.mailjet.com/signup">Create your Mailjet account</a> or visit your <a href="https://fr.mailjet.com/account/api_keys">account page</a> to get your API keys.', 'wp-mailjet').'</li>';
+		$desc .= '<li>' . __('<a href="https://fr.mailjet.com/contacts/lists/add">Create a new list</a> if you don\'t have one or need a new one.', 'wp-mailjet') . '</li>';
 		$desc .= '<li>' . __('<a href="widgets.php">Add</a> the email collection widget to your sidebar or footer.', 'wp-mailjet') . '</li>';
-		$desc .= '<li>' . __('<a href="admin.php?page=wp_mailjet_options_campaigns_menu">Create a campaign</a> on mailjet.com to send your newsletter.', 'wp-mailjet') . '</li>';
+		$desc .= '<li>' . __('<a href="https://fr.mailjet.com/campaigns/create">Create a campaign</a> on mailjet.com to send your newsletter.', 'wp-mailjet') . '</li>';
 		$desc .= '</ol>';
 
 		$generalFieldset = new Options_Form_Fieldset(
@@ -100,21 +98,21 @@ class WPMailjet_Options
 		if (get_option('mailjet_password') && get_option('mailjet_username'))
 		{
 			$MailjetApi = new Mailjet(get_option('mailjet_username'), get_option('mailjet_password'));
-			$resp = $MailjetApi->liststatistics(array('akid' => $MailjetApi->_akid, 'limit' => 0));
+			$resp = $MailjetApi->listsAll();
 
-			if (count($resp->Data) > 0)
+			if ($resp->status == 'OK')
 			{
 				$lists = array(array('value' => '', 'label' => __('Disable autosubscribe', 'wp-mailjet')));
 
-				foreach ($resp->Data as $list)
+				foreach ($resp->lists as $list)
 				{
 					$lists[] = array(
-						'value' => $list->ID,
-						'label' => $list->Name,
+						'value' => $list->id,
+						'label' => $list->label,
 					);
 				}
 			}
-			
+
 			$generalOptions[] = new Options_Form_Option('mailjet_auto_subscribe_list_id', '', 'select', get_option('mailjet_auto_subscribe_list_id'), __('Autosubscribe new users to this list', 'wp-mailjet'), false, $lists);
 		}
 
@@ -132,7 +130,7 @@ class WPMailjet_Options
 		$apiFieldset = new Options_Form_Fieldset(
 			__('API Settings', 'wp-mailjet'),
 			$apiOptions,
-			sprintf(__('You can get your API keys from <a target="_blank" href="https://www.mailjet.com/account/api_keys">your mailjet account</a>. Please also make sure the sender address %s is active in <a target="_blank" href="https://www.mailjet.com/account/sender">your account</a>', 'wp-mailjet'), get_option('admin_email'))
+			sprintf(__('You can get your API keys from <a href="https://www.mailjet.com/account/api_keys">your mailjet account</a>. Please also make sure the sender address %s is active in <a href="https://www.mailjet.com/account/sender">your account</a>', 'wp-mailjet'), get_option('admin_email'))
 		);
 
 		$form->addFieldset($apiFieldset);

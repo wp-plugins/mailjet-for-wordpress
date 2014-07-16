@@ -2,7 +2,7 @@
 
 /*
 Plugin Name:	Mailjet for Wordpress
-Version:		3.0.2
+Version:		1.3.0
 Plugin URI:		https://www.mailjet.com/plugin/wordpress.htm
 Description:	Use mailjet SMTP to send email, manage lists and contacts within wordpress
 Author:			Mailjet SAS
@@ -32,8 +32,10 @@ require('mailjet-class.php');
 require('mailjet-options.php');
 require('mailjet-widget.php');
 require('views/options-form.php');
+require('views/list.php');
+require('views/contacts.php');
 
-define ('MJ_HOST', 'in-v3.mailjet.com');
+define ('MJ_HOST', 'in.mailjet.com');
 define ('MJ_MAILER', 'X-Mailer:WP-Mailjet/0.1');
 
 $options = new WPMailjet_Options();
@@ -180,57 +182,19 @@ function mailjet_subscribe_unsub_user_to_list($subscribe, $user_id)
 
 		if ($subscribe && $list_id = get_option('mailjet_auto_subscribe_list_id'))
 		{
-			// Add the contact
-			$params = array(
-				'method' => 'POST',
-				'Email' =>	$user->data->user_email
-			);		
-			$result = $MailjetApi->contact($params);
-			
-			// There is an error
-			if(isset($result->StatusCode) && $result->StatusCode == '400')
-				return false;
-			
-			// If no error, get the ID of the contact
-			$contact_id = $result->Data[0]->ID;
-			
-			// Add the contact to a contact list
-			$params = array(
-				'method'	=> 'POST',
-				'ContactID'	=> $contact_id,
-				'ListID'	=> $list_id
-			);		
-			$result = $MailjetApi->listrecipient($params);			
-			
-			// Check if any error
-			if(isset($result->StatusCode))
-				return false;
+			$params = array('method' => 'POST',
+							'contact' => $user->data->user_email,
+							'id' => $list_id);
+
+			$response = $MailjetApi->listsAddContact($params);
 		}
 		elseif (!$subscribe && $list_id = get_option('mailjet_auto_subscribe_list_id'))
 		{
-			// Get the contact
-			$params = array(
-				'akid'          => $MailjetApi->_akid,
-				'method'        => 'GET',
-				'ContactEmail'  => $user->data->user_email
-            );		
-			$result = $MailjetApi->listrecipient($params);
-            if($result->Count > 0) 
-            {
-                foreach($result->Data as $contact) 
-                {
-                    if($contact->IsUnsubscribed !== true)
-                    {
-                          $result = $MailjetApi->listrecipient(array(
-                                'akid'    => $MailjetApi->_akid,
-                                'method'   => 'PUT',
-                                'ID'       => $contact->ID,
-                                'IsUnsubscribed' => "true",
-                                'UnsubscribedAt' => date("Y-m-d\TH:i:s\Z", time()),
-                          ));
-                    } 
-                }
-            }			
+			$params = array('method' => 'POST',
+							'contact' => $user->data->user_email,
+							'id' => $list_id);
+
+			$response = $MailjetApi->listsRemoveContact($params);
 		}
 	}
 }
