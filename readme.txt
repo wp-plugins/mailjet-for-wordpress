@@ -21,6 +21,8 @@ Mailjet's official plugin for WordPress will:
 * Reconfigure your wp_mail() function to use Mailjet's SMTP instead of mail() 
 * Create an "Options" page to manage your email settings; 
 * Display a dashboard for your contact lists management;
+* Create Drag and drop Newsletters or pick from our template library;
+* Analyse Open, click and variety of other email statistics in a real-time dashboard;
 * Provide a signup widget, so your visitors can sign up to your Mailjet mailing lists.
 
 
