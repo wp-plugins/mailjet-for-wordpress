@@ -80,13 +80,13 @@ Once your Mailjet plugin is installed, click on "Appearance" in the left-side me
 
 == Changelog ==
 
-== 1.3.0 ==
+= 1.3.0 =
 * Rollback
 
-== 1.2.9 ==
+= 1.2.9 =
 * Implemented v3 support
 
-== 1.2.8 ==
+= 1.2.8 =
 * Added cURL warning and missing translations
 
 = 1.2.7 =
