@@ -189,7 +189,9 @@ class Mailjet_Contacts_Table extends WP_List_Table
 		);
 
 		$contacts = $this->api->listsContacts($params)->result;
-		$this->items = array_map(array($this, 'convert_to_array'), $contacts);
+
+		if (is_array($contacts))
+			$this->items = array_map(array($this, 'convert_to_array'), $contacts);
 	}
 
 	public function convert_to_array($el)
