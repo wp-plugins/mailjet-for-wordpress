@@ -13,10 +13,11 @@ The Mailjet plugin allows you to reconfigure the wp_mail() function to use Mailj
 
 == Description ==
 
-** IMPORTANT:
-** Please Note that if you require v3 API support, the plugin is available from our [Github Repo](https://github.com/mailjet/wordpress-mailjet-plugin-apiv3)**
+** IMPORTANT: ** Please Note that the plug-in listed on this page is compatible only with Mailjet v1 accounts and NOT v3 accounts.  To find out which version of Mailjet you have please log-in to your mailjet account and if the URL starts with 'www.mailjet.com', you have a v1 account and can use this page to download the plug-in.  If the URL starts with 'app.mailjet.com', you have a v3 account and will need to download our v3 compatible plugin at [Github Repo](https://github.com/mailjet/wordpress-mailjet-plugin-apiv3) ** IMPORTANT: **
 
-This plugin version is NOT COMPATABLE with v1 API accounts.
+** If you require v3 API support, the plugin is available from our 
+
+
 
 
 Mailjet's official plugin for WordPress will:
@@ -83,13 +84,13 @@ Once your Mailjet plugin is installed, click on "Appearance" in the left-side me
 == Changelog ==
 
 == 1.3.0 ==
- * Rollback
+* Rollback
 
 == 1.2.9 ==
- * Implemented v3 support
+* Implemented v3 support
 
 == 1.2.8 ==
- * Added cURL warning and missing translations
+* Added cURL warning and missing translations
 
 = 1.2.7 =
 * Bug fix on ssl option and widget constructor, code cleaning
