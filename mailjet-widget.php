@@ -8,31 +8,42 @@
  *
  */
 
-class MailjetSubscribeWidget extends WP_Widget
+class WP_Mailjet_Subscribe_Widget extends WP_Widget
 {
 	protected $api;
-	private $lists = false;
+	private $lists = FALSE;
 
 	function __construct()
 	{
 		//No dependency injection possible, so we have to use this:
-		$this->api = new Mailjet(get_option('mailjet_username'), get_option('mailjet_password'));
+		$this->api = new WP_Mailjet_Api(get_option('mailjet_username'), get_option('mailjet_password'));
 
-		$widget_ops = array('classname' => 'MailjetSubscribeWidget', 'description' => __('Allows your visitors to subscribe to one of your lists', 'wp-mailjet'));
+		$widget_ops = array('classname' => 'WP_Mailjet_Subscribe_Widget', 'description' => __('Allows your visitors to subscribe to one of your lists', 'wp-mailjet'));
 
-		parent::__construct(false, 'Subscribe to our newsletter', $widget_ops);
+		parent::__construct(FALSE, 'Subscribe to our newsletter', $widget_ops);
 		add_action('wp_ajax_mailjet_subscribe_ajax_hook', array($this, 'mailjet_subscribe_from_widget'));
 		add_action('wp_ajax_nopriv_mailjet_subscribe_ajax_hook', array($this, 'mailjet_subscribe_from_widget'));
+
+		wp_enqueue_script('ajax-example', plugin_dir_url( __FILE__ ) . 'assets/js/ajax.js', array( 'jquery' ));
+		wp_localize_script('ajax-example', 'WPMailjet', array(
+			'ajaxurl' => admin_url('admin-ajax.php'),
+			'nonce' => wp_create_nonce('ajax-example-nonce')
+		));
 	}
 
+	/**
+	 * Get list of contact lists
+	 * 
+	 * @param void
+     * @return (array) $this->lists 
+	 */
 	function getLists()
 	{
-		if ($this->lists == false)
+		if ($this->lists === FALSE)		
 		{
-			if ($apiLists = $this->api->listsAll())
-				$this->lists = $apiLists->lists;
-			else
-				$this->lists = array();
+			$this->lists = $this->api->getContactLists(array('limit' => 0));
+			if (isset($this->lists->Status) && $this->lists->Status == 'ERROR')
+				$this->lists = array();		
 		}
 
 		return $this->lists;
@@ -42,7 +53,7 @@ class MailjetSubscribeWidget extends WP_Widget
 	{
 		$instance =		wp_parse_args((array)$instance, array('title' => '', 'list_id' => '' , 'button_text' => ''));
 		$title =		$instance['title'];
-		$list_id =		$instance['list_id'];
+		$list_id =		get_option('mailjet_auto_subscribe_list_id');
 		$button_text =	$instance['button_text'];
 ?>
 	<p>
@@ -62,7 +73,7 @@ class MailjetSubscribeWidget extends WP_Widget
 			<?php echo __('List:', 'wp-mailjet') ?>
 			<select class="widefat" id="<?php echo $this->get_field_id('list_id'); ?>" name="<?php echo $this->get_field_name('list_id'); ?>">
 				<?php foreach ($this->getLists() as $list) { ?>
-				<option value="<?php echo $list->id?>"<?php echo ($list->id == esc_attr($list_id) ? ' selected="selected"' : '') ?>><?php echo $list->label?></option>
+					<option value="<?php echo $list['value']?>"<?php echo ($list['value'] == esc_attr($list_id) ? ' selected="selected"' : '') ?>><?php echo $list['label']?></option>
 				<?php } ?>
 			</select>
 		</label>
@@ -75,54 +86,66 @@ class MailjetSubscribeWidget extends WP_Widget
 		$instance = $old_instance;
 		$instance['title'] = $new_instance['title'];
 		$instance['list_id'] = $new_instance['list_id'];
+		update_option('mailjet_auto_subscribe_list_id', $instance['list_id']);
 		$instance['button_text'] = $new_instance['button_text'];
 
 		return $instance;
 	}
 
+	/**
+	 * Subscribe the user from the widget	 
+	 *  
+	 * @param void
+     * @return void
+	 */
 	public function mailjet_subscribe_from_widget()
 	{
+		// Get some variables - email, list_id, etc.
 		$email = $_POST['email'];
 		$list_id = $_POST['list_id'];
-
-		$params = array(
-			'method' =>		'POST',
-			'contact' =>	$email,
-			'id' =>			$_POST['list_id']
-		);
-
-		$response =	$this->api->listsAddContact($params);
-		$list =		$this->api->listsStatistics(array('id' => $list_id))->statistics;
-
-		if ($response)
-			echo sprintf(__("<p class=\"success\">Thanks for subscribing to <b>%s</b>, %s</p>", 'wp-mailjet'), $list->label, $email);
-		else
-			echo sprintf(__("<p class=\"error\">Sorry %s we couldn't subscribe you to <b>%s</b> at this time</p>", 'wp-mailjet'), $email, $list->label);
-
+					
+		// Add the contact to the contact list
+		$result = $this->api->addContact(array(
+			'Email'		=> $email,
+			'ListID'	=> $list_id
+		));
+		
+		// Check what is the response and display proper message
+		if(isset($result->Status)) {
+			if($result->Status == 'DUPLICATE'){
+				echo '<p class="error">';
+				echo sprintf(__("The contact %s is already subscribed", 'wp-mailjet'), $email);
+				echo '</p>';
+				die();
+			}
+			else if($result->Status == 'ERROR'){
+				echo '<p class="error">';
+				echo sprintf(__("Sorry %s we couldn't subscribe at this time", 'wp-mailjet'), $email);
+				echo '</p>';
+				die();
+			}			
+		}
+		
+		// Adding was successful
+		echo '<p class="success">';
+		echo sprintf(__("Thanks for subscribing with %s", 'wp-mailjet'), $email);
+		echo '</p>';
 		die();
 	}
 
 	function widget($args, $instance)
-	{
-		static $is_script_enqueued = false;
-		
-		if(!$is_script_enqueued)
-		{
-			wp_enqueue_script('ajax-example', plugin_dir_url( __FILE__ ) . 'js/ajax.js', array( 'jquery' ), false, true);
-			wp_localize_script('ajax-example', 'WPMailjet', array(
-				'ajaxurl' => admin_url('admin-ajax.php'),
-				'nonce' => wp_create_nonce('ajax-example-nonce')
-			));
-			$is_script_enqueued = true;
-		}
-		
+	{			
 		extract($args, EXTR_SKIP);
 
 		echo $before_widget;
 		$title = empty($instance['title']) ? ' ' : apply_filters('widget_title', $instance['title']);
-		$list_id = $instance['list_id'];
+		$list_id = get_option('mailjet_auto_subscribe_list_id');
 		$button_text = $instance['button_text'];
 
+		// If contact list is not selected then we just don't display the widget!
+		if(!is_numeric($list_id))
+			return FALSE;
+		
 		if (!empty($title))
 			echo $before_title . $title . $after_title;;
 
@@ -138,5 +161,9 @@ class MailjetSubscribeWidget extends WP_Widget
 		</div>';
 
 		echo $after_widget;
+	}
+	
+	function validate_email($email) {
+		return (preg_match("/(@.*@)|(\.\.)|(@\.)|(\.@)|(^\.)/", $email) || !preg_match("/^.+\@(\[?)[a-zA-Z0-9\-\.]+\.([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/", $email)) ? FALSE : TRUE;
 	}
 }
