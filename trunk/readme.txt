@@ -4,11 +4,11 @@ Contributors: mailjet
 Tags: email, marketing, signup, newsletter, widget, smtp, mailjet
 Requires at least: 3.2.1
 Tested up to: 3.9.1
-Stable tag: 3.1.0
+Stable tag: 3.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-The Mailjet plugin allows you to Send both transactional and marketing emails from your Wordpress site by reconfiguring the wp_mail() function to use Mailjet’s enhanced SMTP relay in conjunction with signup widgets that sync new user subscriptions directly to Mailjet as well as provide an easy drag-and-drop marketing newsletter tool to send marketing emails directly from with your site.
+The Mailjet plugin allows you to Send both transactional and marketing emails from your Wordpress site by reconfiguring the wp_mail() function to use Mailjetï¿½s enhanced SMTP relay in conjunction with signup widgets that sync new user subscriptions directly to Mailjet as well as provide an easy drag-and-drop marketing newsletter tool to send marketing emails directly from with your site.
 
 
 == Description ==
@@ -32,8 +32,8 @@ Our plugin simply extends the WordPress wp_mail() function, to use Mailjet's SMT
 ** Sign up form & contact lists Management **
 -  Another great feature of this plugin is the sign up form Widget. It allows your site visitors to join your Mailjet lists. You can create contact lists directly from the plugin dashboard. The Widget will let you add forms to any post or any page.
 
-** Mailjet’s latest generation v3 iframes **
--  Last but not least, the plugin features Mailjet’s latest v3 iframes to manage contacts, create drag-and-drop marketing campaigns and view in depth sending statistics directly from within the plug-in.
+** Mailjetï¿½s latest generation v3 iframes **
+-  Last but not least, the plugin features Mailjetï¿½s latest v3 iframes to manage contacts, create drag-and-drop marketing campaigns and view in depth sending statistics directly from within the plug-in.
 
 ** Installing the Plugin **
 -  Enable Mailjet's Plugin like you would do for any other Wordpress plugin. Enter your Mailjet credentials and refer to the FAQs for any other information. If you don't have a Mailjet account yet, [signup now](http://www.mailjet.com) for free!
@@ -52,11 +52,11 @@ You must have cURL extension enabled.
 ## Frequently Asked Questions
 
 
-= What is Mailjet? = 
+= What is Mailjet? =
 [Mailjet](http://www.mailjet.com) is an all-in-one solution to send, track and deliver both marketing and transactional emails. Its Cloud-Based infrastructure is unique and highly scalable. A proprietary technology optimizes the sending and the deliverability of your messages.
 
 = Why use Mailjet as an SMTP relay for Wordpress? =
-1 in 4 legitimate email gets lost or ends up a the spam folder. By Sending your email through Mailjet's SMTP relay, you will avoid this and make sure that your recipients receive your messages in real time, straight into their inbox. You will also be able to track the delivery (opens, bounces, etc.) as well as the activity of your emails (clicks, opens, etc.). On top of that, tools such as our Newsletter editor will let you create and send a beautiful marketing campaign in only a few minutes. All this added value comes with no engagement and very low prices.  
+1 in 4 legitimate email gets lost or ends up a the spam folder. By Sending your email through Mailjet's SMTP relay, you will avoid this and make sure that your recipients receive your messages in real time, straight into their inbox. You will also be able to track the delivery (opens, bounces, etc.) as well as the activity of your emails (clicks, opens, etc.). On top of that, tools such as our Newsletter editor will let you create and send a beautiful marketing campaign in only a few minutes. All this added value comes with no engagement and very low prices.
 
 = Do I need a Mailjet Account? =
 Yes. You can create one for free: it's easy and it only takes a few minutes.
