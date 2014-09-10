@@ -4,7 +4,7 @@
 Plugin Name:	Mailjet for Wordpress
 Version:		3.1.0
 Plugin URI:		https://www.mailjet.com/plugin/wordpress.htm
-Description:	Use mailjet SMTP to send email, manage lists and contacts within wordpress
+Description:	Use Mailjet to create and send personalised Newsletters from directly within your WordPress website.  Features include contact synchronisation, advanced segmentation, drag-n-drop newsletter tool and advanced sending and tracking analytics.
 Author:			Mailjet SAS
 Author URI:		http://www.mailjet.com/
 */
