@@ -4,7 +4,7 @@ Contributors: mailjet
 Tags: email, marketing, signup, newsletter, widget, smtp, mailjet
 Requires at least: 3.2.1
 Tested up to: 4.0.0
-Stable tag: 3.1.2
+Stable tag: 3.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -87,6 +87,12 @@ Once your Mailjet plugin is installed, click on "Appearance" in the left-side me
 
 
 == Changelog ==
+
+= 3.1.3=
+* The position of the main Mailjet's menu takes a default value instead of value 101
+* Removed AKID from APIv3 calls from the plugin
+* Prevent plugin from hiding other plugin's page #10
+* README update
 
 = 3.1.2 = 
 * Updated readme
