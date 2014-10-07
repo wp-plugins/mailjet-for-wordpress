@@ -4,7 +4,7 @@ Contributors: mailjet
 Tags: email, marketing, signup, newsletter, widget, smtp, mailjet
 Requires at least: 3.2.1
 Tested up to: 4.0.0
-Stable tag: 3.1.3
+Stable tag: 3.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -87,6 +87,10 @@ Once your Mailjet plugin is installed, click on "Appearance" in the left-side me
 
 
 == Changelog ==
+
+= 3.1.4=
+* Add a confirmation message  when an user activates his/her contact widget on his/her Wordpress admin
+* In the admin panel of WordPress, when a user try to add a "subscribe to our newsletter widget"  we have add a validation if he/she has chosen a contact list
 
 = 3.1.3=
 * The position of the main Mailjet's menu takes a default value instead of value 101
