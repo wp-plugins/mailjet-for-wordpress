@@ -9,7 +9,7 @@
  *
  */
 
-class Mailjet
+class WP_Mailjet_Api_V1
 {
 	var $version = '0.1';
 
@@ -21,7 +21,7 @@ class Mailjet
 
 	// Mode debug ? 0 none / 1 errors only / 2 all
 	var $debug = 0;
-
+	
 	// Edit with your Mailjet Infos
 	var $apiKey = '';
 	var $secretKey = '';
