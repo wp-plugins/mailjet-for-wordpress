@@ -88,6 +88,13 @@ Once your Mailjet plugin is installed, click on "Appearance" in the left-side me
 
 == Changelog ==
 
+= 3.1.6=
+* The administrator of the website is able to give access to the plugin for other user roles.
+
+= 3.1.5=
+* MJ_HOST and MJ_MAILER variables are moved to the api strategy patter class as public properties of the class. From now on, they are
+accessible from there.
+
 = 3.1.4=
 * Add a confirmation message  when an user activates his/her contact widget on his/her Wordpress admin
 * In the admin panel of WordPress, when a user try to add a "subscribe to our newsletter widget"  we have add a validation if he/she has chosen a contact list
@@ -98,7 +105,7 @@ Once your Mailjet plugin is installed, click on "Appearance" in the left-side me
 * Prevent plugin from hiding other plugin's page #10
 * README update
 
-= 3.1.2 = 
+= 3.1.2 =
 * Updated readme
 
 = 3.1.1 =
