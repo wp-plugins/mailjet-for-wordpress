@@ -93,7 +93,7 @@ Once your Mailjet plugin is installed, click on "Appearance" in the left-side me
 
 = 3.1.5=
 * MJ_HOST and MJ_MAILER variables are moved to the api strategy patter class as public properties of the class. From now on, they are
-accessible from there.
+accessable from there.
 
 = 3.1.4=
 * Add a confirmation message  when an user activates his/her contact widget on his/her Wordpress admin
