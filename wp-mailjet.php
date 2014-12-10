@@ -2,9 +2,9 @@
 
 /*
 Plugin Name:	Mailjet for Wordpress
-Version:		3.1.13
+Version:		3.1.16
 Plugin URI:		https://www.mailjet.com/plugin/wordpress.htm
-Description:	Use Mailjet to create and send personalised Newsletters, sync contacts and gather advanced analytics.
+Description:	Use mailjet SMTP to send email, manage lists and contacts within wordpress
 Author:			Mailjet SAS
 Author URI:		http://www.mailjet.com/
 */
