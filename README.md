@@ -13,8 +13,6 @@ The Mailjet WordPress plugin allows you to send newsletter marketing and transac
 
 ## Description
 
-*** SECURITY UPDATE *** if you connect your Mailjet account and get a "php_network_getaddresses: getaddrinfo failed" or if you try to open "contacts", "statistics" and the login form appears AND your Mailjet account was created prior to August 2014, please go to [Account API keys](https://www.mailjet.com/account/api_keys) to regenerate a new Secret Key for the plug-in.
-
 Mailjet's official plugin for WordPress will allow you to:
 
 * Send both transactional and marketing emails from your WordPress site;
@@ -38,6 +36,8 @@ Our plugin simply extends the WordPress wp_mail() function, to use Mailjet's SMT
 
 ### Installing the Plugin
 -  Enable Mailjet's Plugin like you would do for any other Wordpress plugin. Enter your Mailjet credentials and refer to the FAQs for any other information. If you don't have a Mailjet account yet, [signup now](https://app.mailjet.com/signup?p=wordpress-3.0) for free!
+
+*** SECURITY UPDATE *** if you connect your Mailjet account and get a "php_network_getaddresses: getaddrinfo failed" or if you try to open "contacts", "statistics" and the login form appears AND your Mailjet account was created prior to August 2014, please go to [Account API keys](https://www.mailjet.com/account/api_keys) to regenerate a new Secret Key for the plug-in.
 
 ### Installation
 
