@@ -107,13 +107,13 @@ class WP_Mailjet
 		
 		return $locale;
 	}
-		
+
 	public function show_campaigns_menu()
-	{		
+	{
 		echo '<div class="wrap"><div class="icon32"><img src="' . plugin_dir_url(__FILE__) . '/assets/images/mj_logo_med.png' . '" /></div><h2>';
 		echo __('Campaigns', 'wp-mailjet');
 		echo'</h2></div>';
-		echo '<iframe width="980px" height="1200" src="https://'.(($this->api->version == '0.1')?'www':(($this->api->version == 'REST')?'app':'www')).'.mailjet.com/campaigns?t='.$this->_get_auth_token().'&show_menu=none&u=WordPress-3.1&f=amc&locale='.$this->get_locale().'"></iframe>';
+		echo '<iframe width="980px" height="1200" src="https://'.(($this->api->version == '0.1')?'www':(($this->api->version == 'REST')?'app':'www')).'.mailjet.com/campaigns?t='.$this->_get_auth_token().'&show_menu=none&sp=display&u=WordPress-3.1&f=amc&locale='.$this->get_locale().'"></iframe>';
 	}
 
 	public function show_stats_menu()
@@ -121,7 +121,7 @@ class WP_Mailjet
 		echo '<div class="wrap"><div class="icon32"><img src="' . plugin_dir_url(__FILE__) . '/assets/images/mj_logo_med.png' . '" /></div><h2>';
 		echo __('Statistics', 'wp-mailjet');
 		echo'</h2></div>';
-		echo '<iframe width="980px" height="1200" src="https://'.(($this->api->version == '0.1')?'www':(($this->api->version == 'REST')?'app':'www')).'.mailjet.com/stats?t='.$this->_get_auth_token().'&show_menu=none&u=WordPress-3.1&f=amc&locale='.$this->get_locale().'"></iframe>';		
+		echo '<iframe width="980px" height="1200" src="https://'.(($this->api->version == '0.1')?'www':(($this->api->version == 'REST')?'app':'www')).'.mailjet.com/stats?t='.$this->_get_auth_token().'&show_menu=none&sp=display&u=WordPress-3.1&f=amc&locale='.$this->get_locale().'"></iframe>';
 	}
 
 	public function show_contacts_menu()
@@ -129,6 +129,6 @@ class WP_Mailjet
 		echo '<div class="wrap"><div class="icon32"><img src="' . plugin_dir_url(__FILE__) . '/assets/images/mj_logo_med.png' . '" /></div><h2>';
 		echo __('Contacts', 'wp-mailjet');
 		echo'</h2></div>';
-		echo '<iframe width="980px" height="1200" src="https://'.(($this->api->version == '0.1')?'www':(($this->api->version == 'REST')?'app':'www')).'.mailjet.com/contacts/lists?t='.$this->_get_auth_token().'&show_menu=none&u=WordPress-3.1&f=amc&locale='.$this->get_locale().'"></iframe>';		
+		echo '<iframe width="980px" height="1200" src="https://'.(($this->api->version == '0.1')?'www':(($this->api->version == 'REST')?'app':'www')).'.mailjet.com/contacts/lists?t='.$this->_get_auth_token().'&show_menu=none&sp=display&u=WordPress-3.1&f=amc&locale='.$this->get_locale().'"></iframe>';
 	}
 }
